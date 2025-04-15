@@ -11,14 +11,26 @@ import SwiftUI
 struct ThankItApp: App {
     var body: some Scene {
         WindowGroup {
-            PostItView(        thank: Thank(
-                user: User(nickName: "Kinder"),
-                isPublic: true,
-                isAnonymous: false,
-                content: "문을 잡아줬어요",
-                postIt: PostIt.clova,
-                displayDate: Date()
-            ))
+            MainView(thanks: [
+                Thank(
+                    user: User(nickName: "Kinder"),
+                    isPublic: true,
+                    isAnonymous: false,
+                    content: "사탕을 줬어요",
+                    postIt: .clova),
+                Thank(
+                    user: User(nickName: "Kinder"),
+                    isPublic: true,
+                    isAnonymous: false,
+                    content: "리뷰를 해줬어요",
+                    postIt: .apple),
+                Thank(
+                    user: User(nickName: "Kinder"),
+                    isPublic: true,
+                    isAnonymous: false,
+                    content: "고민을 들어줬어요",
+                    postIt: .square(color: .yellow)),
+            ])
         }
     }
 }

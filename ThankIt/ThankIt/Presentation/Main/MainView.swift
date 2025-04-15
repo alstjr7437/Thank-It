@@ -8,11 +8,37 @@
 import SwiftUI
 
 struct MainView: View {
+    let thanks: [Thank]
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List {
+            ForEach(thanks) { thank in
+                PostItView(thank: thank)
+            }
+        }
     }
 }
 
 #Preview {
-    MainView()
+    MainView(
+        thanks: [
+            Thank(
+                user: User(nickName: "Kinder"),
+                isPublic: true,
+                isAnonymous: false,
+                content: "사탕을 줬어요",
+                postIt: .clova),
+            Thank(
+                user: User(nickName: "Kinder"),
+                isPublic: true,
+                isAnonymous: false,
+                content: "리뷰를 해줬어요",
+                postIt: .apple),
+            Thank(
+                user: User(nickName: "Kinder"),
+                isPublic: true,
+                isAnonymous: false,
+                content: "고민을 들어줬어요",
+                postIt: .square(color: .yellow)),
+        ]
+    )
 }

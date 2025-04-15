@@ -59,8 +59,7 @@ private extension PostItView {
             isPublic: true,
             isAnonymous: false,
             content: "문을 잡아줬어요",
-            postIt: PostIt.apple,
-            displayDate: Date()
+            postIt: PostIt.apple
         )
     )
 }
