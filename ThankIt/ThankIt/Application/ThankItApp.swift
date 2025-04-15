@@ -11,7 +11,14 @@ import SwiftUI
 struct ThankItApp: App {
     var body: some Scene {
         WindowGroup {
-            LoginView()
+            PostItView(        thank: Thank(
+                user: User(nickName: "Kinder"),
+                isPublic: true,
+                isAnonymous: false,
+                content: "문을 잡아줬어요",
+                postIt: PostIt.clova,
+                displayDate: Date()
+            ))
         }
     }
 }
