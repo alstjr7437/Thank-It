@@ -34,6 +34,8 @@ struct PostItView: View {
         .frame(width: Metrics.postItViewFrame, height: Metrics.postItViewFrame)
     }
     
+    // MARK: PostIt Content Padding
+    
     private var customPadding: CGFloat {
         switch thank.postIt {
         case .apple:
@@ -44,6 +46,8 @@ struct PostItView: View {
     }
 }
 
+// MARK: - Constants
+
 private extension PostItView {
     enum Metrics {
         static let postItViewFrame = 200.0
@@ -51,6 +55,8 @@ private extension PostItView {
         static let defaultPadding = 20.0
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     PostItView(
