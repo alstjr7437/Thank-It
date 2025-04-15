@@ -1,2 +1,3 @@
 # Thank_It
-2025_AppleDeveloperAcademy_Challenge2
+
+> 감사한 일을 포스트잇에 적어서 공유해보세요. </br>
