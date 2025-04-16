@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct MainView: View {
+    var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     let thanks: [Thank]
+    
     var body: some View {
-        List {
-            ForEach(thanks) { thank in
-                PostItView(thank: thank)
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 40) {
+                ForEach(thanks) { thank in
+                    PostItView(thank: thank)
+                }
             }
         }
     }
@@ -35,6 +39,12 @@ struct MainView: View {
                 isAnonymous: false,
                 content: "리뷰를 해줬어요",
                 postIt: .apple),
+            Thank(
+                user: User(nickName: "Kinder"),
+                isPublic: true,
+                isAnonymous: false,
+                content: "고민을 들어줬어요",
+                postIt: .square(color: .yellow)),
             Thank(
                 user: User(nickName: "Kinder"),
                 isPublic: true,
