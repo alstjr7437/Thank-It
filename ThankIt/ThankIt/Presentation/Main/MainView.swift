@@ -8,10 +8,25 @@
 import SwiftUI
 
 struct MainView: View {
-    var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     let thanks: [Thank]
     
+    var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
+    @State var selectedFlavor: UserScope = .all
+    
     var body: some View {
+        // MARK: Picker
+        HStack {
+            Spacer()
+            Picker("UserScope", selection: $selectedFlavor) {
+                Text(UserScope.all.rawValue).tag(UserScope.all)
+                Text(UserScope.me.rawValue).tag(UserScope.me)
+            }
+            .pickerStyle(.segmented)
+            .frame(width: 100)
+            .padding()
+        }
+        
+        // MARK: Main Scroll
         ScrollView {
             LazyVGrid(columns: columns, spacing: 40) {
                 ForEach(thanks) { thank in
@@ -20,6 +35,12 @@ struct MainView: View {
             }
         }
     }
+}
+
+// MARK: - User Scope
+enum UserScope: String {
+    case all = "All"
+    case me = "Me"
 }
 
 // MARK: - Preview
