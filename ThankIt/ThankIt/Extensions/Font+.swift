@@ -11,4 +11,5 @@ extension Font {
     static let titleFont = Font.system(size: 24, weight: .bold)
     static let buttonFont = Font.system(size: 20, weight: .semibold)
     static let categoryFont = Font.system(size: 20, weight: .medium)
+    static let basicFont = Font.system(size: 20, weight: .light)
 }
