@@ -16,24 +16,35 @@ struct MainView: View {
     let thanks: [Thank]
 
     var body: some View {
-        // MARK: Picker
-        HStack {
-            Spacer()
-            Picker("UserScope", selection: $selectedFlavor) {
-                Text(UserScope.all.rawValue).tag(UserScope.all)
-                Text(UserScope.me.rawValue).tag(UserScope.me)
-            }
-            .pickerStyle(.segmented)
-            .frame(width: 100)
-            .padding()
-        }
-        
-        // MARK: Main Scroll
-        ScrollView {
-            LazyVGrid(columns: columns, spacing: 40) {
-                ForEach(filteredThanks) { thank in
-                    PostItView(thank: thank)
+        NavigationStack {
+            // MARK: Picker
+            HStack {
+                Spacer()
+                
+                Picker("UserScope", selection: $selectedFlavor) {
+                    Text(UserScope.all.rawValue).tag(UserScope.all)
+                    Text(UserScope.me.rawValue).tag(UserScope.me)
                 }
+                .pickerStyle(.segmented)
+                .frame(width: Metrics.pickerFrame)
+                .padding()
+            }
+            
+            // MARK: Main Scroll
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: Metrics.verticalGridSpacing) {
+                    ForEach(filteredThanks) { thank in
+                        PostItView(thank: thank)
+                    }
+                }
+            }
+            
+            // MARK: CreateButton
+            NavigationLink(destination: ThankCreateView()) {
+                Image(.createButton)
+                    .resizable()
+                    .frame(width: Metrics.createButtonFrame, height: Metrics.createButtonFrame)
+                    .padding(.bottom, Metrics.createButtonPadding)
             }
         }
     }
@@ -56,6 +67,15 @@ extension MainView {
 enum UserScope: String {
     case all = "All"
     case me = "Me"
+}
+
+private extension MainView {
+    enum Metrics {
+        static let pickerFrame = 100.0
+        static let createButtonFrame = 70.0
+        static let createButtonPadding = 30.0
+        static let verticalGridSpacing = 40.0
+    }
 }
 
 // MARK: - Preview
