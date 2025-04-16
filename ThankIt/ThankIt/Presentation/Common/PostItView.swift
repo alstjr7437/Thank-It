@@ -14,6 +14,7 @@ struct PostItView: View {
     var body: some View {
         ZStack {
             PostItBackgroundView(postIt: thank.postIt)
+                .shadow(radius: 4, x: 1, y: 4)
 
             VStack(alignment: .leading) {
                 Text(thank.content)
