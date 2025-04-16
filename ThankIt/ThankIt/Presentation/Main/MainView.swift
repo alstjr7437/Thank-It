@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct MainView: View {
-    let thanks: [Thank]
+    @AppStorage("userNickname") private var userNickname: String = ""
     
-    var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
+    private(set) var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     @State var selectedFlavor: UserScope = .all
     
+    let thanks: [Thank]
+
     var body: some View {
         // MARK: Picker
         HStack {
@@ -29,10 +31,23 @@ struct MainView: View {
         // MARK: Main Scroll
         ScrollView {
             LazyVGrid(columns: columns, spacing: 40) {
-                ForEach(thanks) { thank in
+                ForEach(filteredThanks) { thank in
                     PostItView(thank: thank)
                 }
             }
+        }
+    }
+}
+
+// MARK: - Thanks Filter
+
+extension MainView {
+    private var filteredThanks: [Thank] {
+        switch selectedFlavor {
+        case .all:
+            return thanks
+        case .me:
+            return thanks.filter { $0.user.nickName == userNickname }
         }
     }
 }
@@ -67,7 +82,7 @@ enum UserScope: String {
                 content: "고민을 들어줬어요",
                 postIt: .square(color: .yellow)),
             Thank(
-                user: User(nickName: "Kinder"),
+                user: User(nickName: "Yoon"),
                 isPublic: true,
                 isAnonymous: false,
                 content: "고민을 들어줬어요",
