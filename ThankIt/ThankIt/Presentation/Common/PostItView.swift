@@ -26,6 +26,7 @@ struct PostItView: View {
                         Text(thank.user.nickName)
                             .font(.footnote)
                             .foregroundColor(.gray)
+                            .padding(.bottom, Metrics.nickNameBottomPadding)
                     }
                 }
             }
@@ -50,9 +51,10 @@ struct PostItView: View {
 
 private extension PostItView {
     enum Metrics {
-        static let postItViewFrame = 200.0
-        static let appleViewPadding = 40.0
-        static let defaultPadding = 20.0
+        static let postItViewFrame = 150.0
+        static let appleViewPadding = 30.0
+        static let defaultPadding = 15.0
+        static let nickNameBottomPadding = -10.0
     }
 }
 
@@ -65,7 +67,7 @@ private extension PostItView {
             isPublic: true,
             isAnonymous: false,
             content: "문을 잡아줬어요",
-            postIt: PostIt.apple
+            postIt: PostIt.clova
         )
     )
 }
