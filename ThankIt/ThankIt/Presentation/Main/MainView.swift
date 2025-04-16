@@ -34,7 +34,7 @@ struct MainView: View {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: Metrics.verticalGridSpacing) {
                     ForEach(filteredThanks) { thank in
-                        PostItView(thank: thank)
+                        PostItView(thank: thank, size: Metrics.postItListSize)
                     }
                 }
             }
@@ -75,6 +75,7 @@ private extension MainView {
         static let createButtonFrame = 70.0
         static let createButtonPadding = 30.0
         static let verticalGridSpacing = 40.0
+        static let postItListSize = 150.0
     }
 }
 

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PostItView: View {
     let thank: Thank
+    let size: CGFloat
     
     var body: some View {
         ZStack {
@@ -32,7 +33,7 @@ struct PostItView: View {
             }
             .padding(customPadding)
         }
-        .frame(width: Metrics.postItViewFrame, height: Metrics.postItViewFrame)
+        .frame(width: size, height: size)
     }
     
     // MARK: PostIt Content Padding
@@ -51,7 +52,6 @@ struct PostItView: View {
 
 private extension PostItView {
     enum Metrics {
-        static let postItViewFrame = 150.0
         static let appleViewPadding = 30.0
         static let defaultPadding = 15.0
         static let nickNameBottomPadding = -10.0
@@ -61,5 +61,5 @@ private extension PostItView {
 // MARK: - Preview
 
 #Preview {
-    PostItView(thank: DummyData.Thanks[0])
+    PostItView(thank: DummyData.Thanks[0], size: 200)
 }
