@@ -61,13 +61,5 @@ private extension PostItView {
 // MARK: - Preview
 
 #Preview {
-    PostItView(
-        thank: Thank(
-            user: User(nickName: "Kinder"),
-            isPublic: true,
-            isAnonymous: false,
-            content: "문을 잡아줬어요",
-            postIt: PostIt.clova
-        )
-    )
+    PostItView(thank: DummyData.Thanks[0])
 }
