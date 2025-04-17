@@ -14,13 +14,23 @@ final class FirebaseManager {
     
     let db = Firestore.firestore()
     
-    func add(_ data: EntityRepresentable) async {
-        do {
-            guard let dataDictionary = data.asDictionary else { return }
-            try await db.collection(data.entityName).addDocument(data: dataDictionary)
-            print("✅ Thank added to Firestore")
-        } catch {
-            print("❌ Error adding Thank: \(error)")
+    func create(_ data: EntityRepresentable) async throws {
+        guard let dataDictionary = data.asDictionary else { return }
+        try await db.collection(data.entityName.rawValue).addDocument(data: dataDictionary)
+        print("✅ Thank added to Firestore")
+    }
+    
+    func fetch<T: Decodable>(
+        as type: T.Type,
+        _ collectionType: CollectionType
+    ) async throws -> [T] {
+        let snapshot = try await db.collection(collectionType.rawValue).getDocuments()
+        
+        let items: [T] = try snapshot.documents.compactMap { doc in
+            let data = try JSONSerialization.data(withJSONObject: doc.data())
+            return try JSONDecoder().decode(T.self, from: data)
         }
+        
+        return items
     }
 }
