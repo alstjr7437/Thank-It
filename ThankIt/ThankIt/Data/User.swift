@@ -13,7 +13,7 @@ struct User: Codable {
 }
 
 extension User: EntityRepresentable {
-    var entityName: String {
-        "User"
+    var entityName: CollectionType {
+        .users
     }
 }

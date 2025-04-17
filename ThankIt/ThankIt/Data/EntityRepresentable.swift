@@ -6,6 +6,6 @@
 //
 
 protocol EntityRepresentable {
-    var entityName: String { get }
+    var entityName: CollectionType { get }
     var asDictionary: [String: Any]? { get }
 }

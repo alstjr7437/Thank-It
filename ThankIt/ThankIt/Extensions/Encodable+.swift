@@ -5,6 +5,8 @@
 //  Created by 김민석 on 4/17/25.
 //
 
+import Foundation
+
 extension Encodable {
     var asDictionary: [String: Any]? {
         guard let object = try? JSONEncoder().encode(self),

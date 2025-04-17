@@ -18,7 +18,7 @@ struct Thank: Identifiable, Codable {
 }
 
 extension Thank: EntityRepresentable {
-    var entityName: String {
-        "Thank"
+    var entityName: CollectionType {
+        .thank
     }
 }
