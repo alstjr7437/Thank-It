@@ -9,14 +9,16 @@ import SwiftUI
 
 struct PostItView: View {
     let thank: Thank
+    let size: CGFloat
     
     var body: some View {
         ZStack {
             PostItBackgroundView(postIt: thank.postIt)
+                .shadow(radius: 4, x: 1, y: 4)
 
             VStack(alignment: .leading) {
                 Text(thank.content)
-                    .font(.basicFont)
+                    .font(size < 300 ? .basicFont : .detailFont )
                     .foregroundColor(.black)
                     .multilineTextAlignment(.leading)
                 Spacer()
@@ -26,12 +28,13 @@ struct PostItView: View {
                         Text(thank.user.nickName)
                             .font(.footnote)
                             .foregroundColor(.gray)
+                            .padding(.bottom, Metrics.nickNameBottomPadding)
                     }
                 }
             }
             .padding(customPadding)
         }
-        .frame(width: Metrics.postItViewFrame, height: Metrics.postItViewFrame)
+        .frame(width: size, height: size)
     }
     
     // MARK: PostIt Content Padding
@@ -39,9 +42,9 @@ struct PostItView: View {
     private var customPadding: CGFloat {
         switch thank.postIt {
         case .apple:
-            Metrics.appleViewPadding
+            size < 300 ? Metrics.appleViewBasicPadding : Metrics.appleViewDetailPadding
         default :
-            Metrics.defaultPadding
+            size < 300 ? Metrics.defaultPadding : Metrics.detailPadding
         }
     }
 }
@@ -50,22 +53,16 @@ struct PostItView: View {
 
 private extension PostItView {
     enum Metrics {
-        static let postItViewFrame = 200.0
-        static let appleViewPadding = 40.0
-        static let defaultPadding = 20.0
+        static let appleViewBasicPadding = 30.0
+        static let appleViewDetailPadding = 60.0
+        static let defaultPadding = 15.0
+        static let detailPadding = 30.0
+        static let nickNameBottomPadding = -10.0
     }
 }
 
 // MARK: - Preview
 
 #Preview {
-    PostItView(
-        thank: Thank(
-            user: User(nickName: "Kinder"),
-            isPublic: true,
-            isAnonymous: false,
-            content: "문을 잡아줬어요",
-            postIt: PostIt.apple
-        )
-    )
+    PostItView(thank: DummyData.Thanks[0], size: 200)
 }
