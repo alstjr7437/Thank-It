@@ -7,5 +7,6 @@
 
 protocol EntityRepresentable {
     var entityName: CollectionType { get }
+    var documentID: String { get }
     var asDictionary: [String: Any]? { get }
 }

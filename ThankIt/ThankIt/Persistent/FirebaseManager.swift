@@ -16,7 +16,7 @@ final class FirebaseManager {
     
     func create(_ data: EntityRepresentable) async throws {
         guard let dataDictionary = data.asDictionary else { return }
-        try await db.collection(data.entityName.rawValue).addDocument(data: dataDictionary)
+        try await db.collection(data.entityName.rawValue).document(data.documentID).setData(dataDictionary)
         print("✅ Thank added to Firestore")
     }
     
