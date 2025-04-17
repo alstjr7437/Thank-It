@@ -24,15 +24,3 @@ final class FirebaseManager {
         }
     }
 }
-
-extension Encodable {
-    var asDictionary: [String: Any]? {
-        guard let object = try? JSONEncoder().encode(self),
-              let dictionary = try? JSONSerialization.jsonObject(with: object, options: [])
-                as? [String: Any] else {
-            return nil
-        }
-        
-        return dictionary
-    }
-}
