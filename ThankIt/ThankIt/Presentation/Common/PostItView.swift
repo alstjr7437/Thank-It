@@ -22,14 +22,12 @@ struct PostItView: View {
                     .foregroundColor(.black)
                     .multilineTextAlignment(.leading)
                 Spacer()
-                HStack {
-                    Spacer()
-                    if !thank.isAnonymous {
-                        Text(thank.user.nickName)
-                            .font(.footnote)
-                            .foregroundColor(.gray)
-                            .padding(.bottom, Metrics.nickNameBottomPadding)
-                    }
+                if !thank.isAnonymous {
+                    Text(thank.user.nickName)
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                        .padding(.bottom, Metrics.nickNameBottomPadding)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
             .padding(customPadding)
