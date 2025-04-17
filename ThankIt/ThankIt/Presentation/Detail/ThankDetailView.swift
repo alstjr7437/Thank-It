@@ -9,11 +9,15 @@ import SwiftUI
 
 struct ThankDetailView: View {
     let thank: Thank
+    let userNickName: String
     
     var body: some View {
         VStack(spacing: 30) {
             PostItView(thank: thank, size: 300)
-            EditButtonView()
+            
+            if userNickName == thank.user.nickName {
+                EditButtonView()
+            }
         }
     }
     
@@ -45,5 +49,5 @@ struct ThankDetailView: View {
 }
 
 #Preview {
-    ThankDetailView(thank: DummyData.Thanks[0])
+    ThankDetailView(thank: DummyData.Thanks[0], userNickName: "Kinder")
 }

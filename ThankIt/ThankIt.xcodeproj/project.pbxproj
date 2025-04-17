@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		EE7866562DAFCE8E003FFD2F /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = EE7866552DAFCE8E003FFD2F /* PopupView */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		EE53991C2DAE1C7500F3D0C3 /* ThankIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThankIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE7866562DAFCE8E003FFD2F /* PopupView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = ThankIt;
 			packageProductDependencies = (
+				EE7866552DAFCE8E003FFD2F /* PopupView */,
 			);
 			productName = ThankIt;
 			productReference = EE53991C2DAE1C7500F3D0C3 /* ThankIt.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = EE5399132DAE1C7500F3D0C3;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				EE7866542DAFCE8E003FFD2F /* XCRemoteSwiftPackageReference "PopupView" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = EE53991D2DAE1C7500F3D0C3 /* Products */;
 			projectDirPath = "";
@@ -324,6 +333,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EE7866542DAFCE8E003FFD2F /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EE7866552DAFCE8E003FFD2F /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EE7866542DAFCE8E003FFD2F /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = EE5399142DAE1C7500F3D0C3 /* Project object */;
 }

@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
+import PopupView
 
 struct MainView: View {
     @AppStorage("userNickname") private var userNickname: String = ""
+    @State var selectedFlavor: UserScope = .all
+    @State private var selectedThank: Thank? = nil
     
     private(set) var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
-    @State var selectedFlavor: UserScope = .all
-    
+
     let thanks: [Thank]
 
     var body: some View {
@@ -35,6 +37,9 @@ struct MainView: View {
                 LazyVGrid(columns: columns, spacing: Metrics.verticalGridSpacing) {
                     ForEach(filteredThanks) { thank in
                         PostItView(thank: thank, size: Metrics.postItListSize)
+                            .onTapGesture {
+                                selectedThank = thank
+                            }
                     }
                 }
             }
@@ -47,6 +52,25 @@ struct MainView: View {
                     .padding(.bottom, Metrics.createButtonPadding)
             }
         }
+        .popup(
+            isPresented: Binding(
+                get: { selectedThank != nil },
+                set: { isPresented in
+                    if !isPresented {
+                        selectedThank = nil
+                    }
+                }
+            )
+        ) {
+            if let thank = selectedThank {
+                ThankDetailView(thank: thank, userNickName: userNickname)
+            }
+        } customize: {
+            $0.backgroundColor(.black.opacity(0.5))
+                .closeOnTapOutside(true)
+                .closeOnTap(false)
+        }
+        
     }
 }
 
