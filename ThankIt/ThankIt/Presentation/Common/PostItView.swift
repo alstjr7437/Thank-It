@@ -18,7 +18,7 @@ struct PostItView: View {
 
             VStack(alignment: .leading) {
                 Text(thank.content)
-                    .font(.basicFont)
+                    .font(size < 300 ? .basicFont : .detailFont )
                     .foregroundColor(.black)
                     .multilineTextAlignment(.leading)
                 Spacer()
@@ -42,9 +42,9 @@ struct PostItView: View {
     private var customPadding: CGFloat {
         switch thank.postIt {
         case .apple:
-            Metrics.appleViewPadding
+            size < 300 ? Metrics.appleViewBasicPadding : Metrics.appleViewDetailPadding
         default :
-            Metrics.defaultPadding
+            size < 300 ? Metrics.defaultPadding : Metrics.detailPadding
         }
     }
 }
@@ -53,8 +53,10 @@ struct PostItView: View {
 
 private extension PostItView {
     enum Metrics {
-        static let appleViewPadding = 30.0
+        static let appleViewBasicPadding = 30.0
+        static let appleViewDetailPadding = 60.0
         static let defaultPadding = 15.0
+        static let detailPadding = 30.0
         static let nickNameBottomPadding = -10.0
     }
 }
