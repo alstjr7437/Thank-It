@@ -19,46 +19,48 @@ struct MainView: View {
 
     var body: some View {
         NavigationStack {
-            // MARK: Picker
-            HStack {
-                Spacer()
-                
-                Picker("UserScope", selection: $selectedFlavor) {
-                    Text(UserScope.all.rawValue).tag(UserScope.all)
-                    Text(UserScope.me.rawValue).tag(UserScope.me)
+            ZStack {
+                ScrollView {
+                    // MARK: Picker
+                    HStack {
+                        Spacer()
+                        
+                        Picker("UserScope", selection: $selectedFlavor) {
+                            Text(UserScope.all.rawValue).tag(UserScope.all)
+                            Text(UserScope.me.rawValue).tag(UserScope.me)
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(width: Metrics.pickerFrame)
+                        .padding()
+                    }
+                    
+                    // MARK: Main Data
+                    LazyVGrid(columns: columns, spacing: Metrics.verticalGridSpacing) {
+                        ForEach(filteredThanks) { thank in
+                            PostItView(thank: thank, size: Metrics.postItListSize)
+                                .onTapGesture { selectedThank = thank }
+                        }
+                    }
                 }
-                .pickerStyle(.segmented)
-                .frame(width: Metrics.pickerFrame)
-                .padding()
-            }
-            
-            // MARK: Main Scroll
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: Metrics.verticalGridSpacing) {
-                    ForEach(filteredThanks) { thank in
-                        PostItView(thank: thank, size: Metrics.postItListSize)
-                            .onTapGesture {
-                                selectedThank = thank
-                            }
+                
+                VStack {
+                    Spacer()
+                    // MARK: CreateButton
+                    NavigationLink(destination: ThankCreateView()) {
+                        Image(.createButton)
+                            .resizable()
+                            .frame(width: Metrics.createButtonFrame, height: Metrics.createButtonFrame)
+                            .padding(.bottom, Metrics.createButtonPadding)
                     }
                 }
             }
             
-            // MARK: CreateButton
-            NavigationLink(destination: ThankCreateView()) {
-                Image(.createButton)
-                    .resizable()
-                    .frame(width: Metrics.createButtonFrame, height: Metrics.createButtonFrame)
-                    .padding(.bottom, Metrics.createButtonPadding)
-            }
         }
         .popup(
             isPresented: Binding(
                 get: { selectedThank != nil },
                 set: { isPresented in
-                    if !isPresented {
-                        selectedThank = nil
-                    }
+                    if !isPresented { selectedThank = nil }
                 }
             )
         ) {
