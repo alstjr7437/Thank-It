@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE4B52772DB114040017F2DF /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = EE4B52762DB114040017F2DF /* FirebaseCore */; };
 		EE7866562DAFCE8E003FFD2F /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = EE7866552DAFCE8E003FFD2F /* PopupView */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE4B52772DB114040017F2DF /* FirebaseCore in Frameworks */,
 				EE7866562DAFCE8E003FFD2F /* PopupView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,6 +73,7 @@
 			name = ThankIt;
 			packageProductDependencies = (
 				EE7866552DAFCE8E003FFD2F /* PopupView */,
+				EE4B52762DB114040017F2DF /* FirebaseCore */,
 			);
 			productName = ThankIt;
 			productReference = EE53991C2DAE1C7500F3D0C3 /* ThankIt.app */;
@@ -355,6 +358,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		EE4B52762DB114040017F2DF /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EE7866672DB11170003FFD2F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
 		EE7866552DAFCE8E003FFD2F /* PopupView */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EE7866542DAFCE8E003FFD2F /* XCRemoteSwiftPackageReference "PopupView" */;

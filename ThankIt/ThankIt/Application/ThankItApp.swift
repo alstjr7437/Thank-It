@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct ThankItApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     var body: some Scene {
         WindowGroup {
             MainView(thanks: DummyData.Thanks)
