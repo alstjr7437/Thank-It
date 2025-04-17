@@ -13,7 +13,7 @@ struct ThankDetailView: View {
     
     var body: some View {
         VStack(spacing: 30) {
-            PostItView(thank: thank, size: 300)
+            PostItView(thank: thank, size: Metrics.detailPostItSize)
             
             if userNickName == thank.user.nickName {
                 EditButtonView()
@@ -28,23 +28,34 @@ struct ThankDetailView: View {
                     // TODO: 수정하기 로직
                 } label: {
                     Text("수정하기")
-                        .frame(width: 125, height: 45)
+                        .frame(width: Metrics.buttonWidthFrame, height: Metrics.buttonHeightFrame)
                         .foregroundStyle(.black)
                         .background(.point)
-                        .cornerRadius(8)
+                        .cornerRadius(Metrics.buttonConerRadius)
+                        .shadow(radius: 4, x: 4, y: 4)
                 }
                 
                 Button {
                     // TODO: 삭제하기 로직
                 } label: {
                     Text("삭제하기")
-                        .frame(width: 125, height: 45)
+                        .frame(width: Metrics.buttonWidthFrame, height: Metrics.buttonHeightFrame)
                         .foregroundStyle(.white)
                         .background(.red)
-                        .cornerRadius(8)
+                        .cornerRadius(Metrics.buttonConerRadius)
+                        .shadow(radius: 4, x: 4, y: 4)
                 }
             }
         }
+    }
+}
+
+private extension ThankDetailView {
+    enum Metrics {
+        static let buttonWidthFrame = 125.0
+        static let buttonHeightFrame = 45.0
+        static let buttonConerRadius = 8.0
+        static let detailPostItSize = 300.0
     }
 }
 
