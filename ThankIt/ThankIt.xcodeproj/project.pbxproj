@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EE4B52772DB114040017F2DF /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = EE4B52762DB114040017F2DF /* FirebaseCore */; };
+		EE4B52792DB115D50017F2DF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = EE4B52782DB115D50017F2DF /* FirebaseFirestore */; };
 		EE7866562DAFCE8E003FFD2F /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = EE7866552DAFCE8E003FFD2F /* PopupView */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +31,7 @@
 			files = (
 				EE4B52772DB114040017F2DF /* FirebaseCore in Frameworks */,
 				EE7866562DAFCE8E003FFD2F /* PopupView in Frameworks */,
+				EE4B52792DB115D50017F2DF /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +76,7 @@
 			packageProductDependencies = (
 				EE7866552DAFCE8E003FFD2F /* PopupView */,
 				EE4B52762DB114040017F2DF /* FirebaseCore */,
+				EE4B52782DB115D50017F2DF /* FirebaseFirestore */,
 			);
 			productName = ThankIt;
 			productReference = EE53991C2DAE1C7500F3D0C3 /* ThankIt.app */;
@@ -362,6 +365,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EE7866672DB11170003FFD2F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCore;
+		};
+		EE4B52782DB115D50017F2DF /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EE7866672DB11170003FFD2F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 		EE7866552DAFCE8E003FFD2F /* PopupView */ = {
 			isa = XCSwiftPackageProductDependency;
