@@ -9,10 +9,10 @@ import FirebaseFirestore
 
 final class FirebaseManager {
     
-    private init() {}
     static let shared = FirebaseManager()
-    
     let db = Firestore.firestore()
+    
+    private init() {}
     
     func create<T: EntityRepresentable>(_ data: T) async throws -> T {
         guard let dataDictionary = data.asDictionary else { throw Error.encodingFailed }
@@ -42,6 +42,28 @@ final class FirebaseManager {
         
         return items
     }
+    
+    func delete(_ data: EntityRepresentable) async throws -> Bool {
+        try await db
+            .collection(data.entityName.rawValue)
+            .document(data.documentID)
+            .delete()
+        
+        return true
+    }
+    
+    func update(_ updateData: EntityRepresentable) async throws -> Bool {
+        guard let dataDictionary = updateData.asDictionary else { throw Error.encodingFailed }
+        
+        try await db
+            .collection(updateData.entityName.rawValue)
+            .document(updateData.documentID)
+            .updateData(dataDictionary)
+        
+        return true
+    }
+}
+
 extension FirebaseManager {
     enum Error: LocalizedError {
         case addFailed(underlying: Swift.Error)
