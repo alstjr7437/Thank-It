@@ -7,12 +7,21 @@
 
 import Foundation
 
-struct Thank: Identifiable {
-    let id: UUID = UUID()
+struct Thank: Identifiable, Codable {
+    let id: UUID
     let user: User
     let isPublic: Bool
     let isAnonymous: Bool
     let content: String
     let postIt: PostIt
-    let displayDate: Date = Date()
+    let displayDate: Date
+}
+
+extension Thank: EntityRepresentable {
+    var documentID: String {
+        id.uuidString
+    }
+    var entityName: CollectionType {
+        .thank
+    }
 }

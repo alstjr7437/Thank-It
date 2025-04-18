@@ -7,7 +7,16 @@
 
 import Foundation
 
-struct User {
-    let id: UUID = UUID()
+struct User: Codable {
+    let id: UUID
     let nickName: String
+}
+
+extension User: EntityRepresentable {
+    var documentID: String {
+        id.uuidString
+    }
+    var entityName: CollectionType {
+        .users
+    }
 }

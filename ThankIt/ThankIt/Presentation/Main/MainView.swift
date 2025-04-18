@@ -22,17 +22,14 @@ struct MainView: View {
             ZStack {
                 ScrollView {
                     // MARK: Picker
-                    HStack {
-                        Spacer()
-                        
-                        Picker("UserScope", selection: $selectedFlavor) {
-                            Text(UserScope.all.rawValue).tag(UserScope.all)
-                            Text(UserScope.me.rawValue).tag(UserScope.me)
-                        }
-                        .pickerStyle(.segmented)
-                        .frame(width: Metrics.pickerFrame)
-                        .padding()
+                    Picker("UserScope", selection: $selectedFlavor) {
+                        Text(UserScope.all.rawValue).tag(UserScope.all)
+                        Text(UserScope.me.rawValue).tag(UserScope.me)
                     }
+                    .pickerStyle(.segmented)
+                    .frame(width: Metrics.pickerFrame)
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .trailing)
                     
                     // MARK: Main Data
                     LazyVGrid(columns: columns, spacing: Metrics.verticalGridSpacing) {
@@ -43,19 +40,17 @@ struct MainView: View {
                     }
                 }
                 
-                VStack {
-                    Spacer()
-                    // MARK: CreateButton
-                    NavigationLink(destination: ThankCreateView()) {
-                        Image(.createButton)
-                            .resizable()
-                            .frame(width: Metrics.createButtonFrame, height: Metrics.createButtonFrame)
-                            .padding(.bottom, Metrics.createButtonPadding)
-                    }
+                // MARK: 생성 버튼
+                NavigationLink(destination: ThankCreateView()) {
+                    Image(.createButton)
+                        .resizable()
+                        .frame(width: Metrics.createButtonFrame, height: Metrics.createButtonFrame)
+                        .padding(.bottom, Metrics.createButtonPadding)
                 }
+                .frame(maxHeight: .infinity, alignment: .bottom)
             }
-            
         }
+        // MARK: 팝업
         .popup(
             isPresented: Binding(
                 get: { selectedThank != nil },
