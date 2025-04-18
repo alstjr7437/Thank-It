@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     
+    @AppStorage("userNickname") private var savedNickname: String = ""
     @State private var nickname: String = ""
     
     var body: some View {
@@ -38,7 +39,7 @@ struct LoginView: View {
             Spacer()
             
             CreateButtonView {
-                
+                savedNickname = nickname
             }
         }
         .padding()

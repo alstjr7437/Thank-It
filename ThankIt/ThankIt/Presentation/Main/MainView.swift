@@ -15,7 +15,7 @@ struct MainView: View {
     
     private(set) var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
 
-    let thanks: [Thank]
+    let thanks: [Thank] = []
 
     var body: some View {
         NavigationStack {
@@ -103,5 +103,5 @@ private extension MainView {
 // MARK: - Preview
 
 #Preview {
-    MainView(thanks: DummyData.Thanks)
+    MainView()
 }
