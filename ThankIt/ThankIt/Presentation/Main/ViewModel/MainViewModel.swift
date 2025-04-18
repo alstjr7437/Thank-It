@@ -20,12 +20,6 @@ struct MainState {
 final class MainViewModel: ObservableObject {
     @Published private(set) var state = MainState()
     
-    init(state: MainState = MainState()) {
-        self.state = state
-        
-        send(.onAppear)
-    }
-    
     func send(_ intent: MainIntent) {
         switch intent {
         case .onAppear:
@@ -36,6 +30,9 @@ final class MainViewModel: ObservableObject {
             
         case .selectThank(let thank):
             state.selectedThank = thank
+            
+        case .clearError:
+            state.errorMessage = nil
         }
     }
     

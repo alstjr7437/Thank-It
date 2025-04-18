@@ -10,8 +10,9 @@ import PopupView
 
 struct MainView: View {
     @AppStorage("userNickname") private var userNickname: String = ""
-    
     @StateObject private var viewModel = MainViewModel()
+    
+    private(set) var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
 
     var body: some View {
         NavigationStack {
@@ -47,9 +48,21 @@ struct MainView: View {
                         .padding(.bottom, Metrics.createButtonPadding)
                 }
                 .frame(maxHeight: .infinity, alignment: .bottom)
+                
+                if viewModel.state.isLoading {
+                    ProgressView("불러오는 중")
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .foregroundColor(.gray)
+                        .padding()
+                }
+                
             }
         }
-        // MARK: 팝업
+        .onAppear {
+            viewModel.send(.onAppear)
+        }
+        
+        // MARK: 팝업 화면
         .popup(
             isPresented: Binding(
                 get: { viewModel.state.selectedThank != nil },
@@ -65,9 +78,21 @@ struct MainView: View {
                 .closeOnTap(false)
         }
         
+        // MARK: 에러 화면
+        .alert("에러", isPresented: Binding<Bool>(
+            get: { viewModel.state.errorMessage != nil },
+            set: { isPresented in
+                if !isPresented {
+                    viewModel.send(.clearError)
+                }
+            }
+        )) {
+            Button("확인", role: .cancel) { }
+        } message: {
+            Text(viewModel.state.errorMessage ?? "알 수 없는 에러가 발생했어요.")
+        }
+        
     }
-    
-    private(set) var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
 }
 
 // MARK: - Thanks Filter
