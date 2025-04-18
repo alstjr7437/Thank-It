@@ -10,19 +10,18 @@ import PopupView
 
 struct MainView: View {
     @AppStorage("userNickname") private var userNickname: String = ""
-    @State var selectedFlavor: UserScope = .all
-    @State private var selectedThank: Thank? = nil
     
-    private(set) var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
-
-    let thanks: [Thank] = []
+    @StateObject private var viewModel = MainViewModel()
 
     var body: some View {
         NavigationStack {
             ZStack {
                 ScrollView {
                     // MARK: Picker
-                    Picker("UserScope", selection: $selectedFlavor) {
+                    Picker("UserScope", selection: Binding(
+                        get: { viewModel.state.selectedFlavor },
+                        set: { viewModel.send(.selectFlavor($0)) }
+                    )) {
                         Text(UserScope.all.rawValue).tag(UserScope.all)
                         Text(UserScope.me.rawValue).tag(UserScope.me)
                     }
@@ -35,7 +34,7 @@ struct MainView: View {
                     LazyVGrid(columns: columns, spacing: Metrics.verticalGridSpacing) {
                         ForEach(filteredThanks) { thank in
                             PostItView(thank: thank, size: Metrics.postItListSize)
-                                .onTapGesture { selectedThank = thank }
+                                .onTapGesture { viewModel.send(.selectThank(thank)) }
                         }
                     }
                 }
@@ -53,13 +52,11 @@ struct MainView: View {
         // MARK: 팝업
         .popup(
             isPresented: Binding(
-                get: { selectedThank != nil },
-                set: { isPresented in
-                    if !isPresented { selectedThank = nil }
-                }
+                get: { viewModel.state.selectedThank != nil },
+                set: { if !$0 { viewModel.send(.selectThank(nil)) }}
             )
         ) {
-            if let thank = selectedThank {
+            if let thank = viewModel.state.selectedThank {
                 ThankDetailView(thank: thank, userNickName: userNickname)
             }
         } customize: {
@@ -69,17 +66,19 @@ struct MainView: View {
         }
         
     }
+    
+    private(set) var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
 }
 
 // MARK: - Thanks Filter
 
 extension MainView {
     private var filteredThanks: [Thank] {
-        switch selectedFlavor {
+        switch viewModel.state.selectedFlavor {
         case .all:
-            return thanks
+            return viewModel.state.thanks
         case .me:
-            return thanks.filter { $0.user.nickName == userNickname }
+            return viewModel.state.thanks.filter { $0.user.nickName == userNickname }
         }
     }
 }
