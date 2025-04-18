@@ -8,9 +8,9 @@ import Foundation
 
 struct DummyData {
     static let Users: [User] = [
-        User(id: UUID(), nickName: "Kinder"),
-        User(id: UUID(), nickName: "Gil"),
-        User(id: UUID(), nickName: "Yoon")
+        User(nickName: "Kinder"),
+        User(nickName: "Gil"),
+        User(nickName: "Yoon")
     ]
 
     static let Thanks: [Thank] = [

@@ -8,13 +8,12 @@
 import Foundation
 
 struct User: Codable {
-    let id: UUID
     let nickName: String
 }
 
 extension User: EntityRepresentable {
     var documentID: String {
-        id.uuidString
+        nickName
     }
     var entityName: CollectionType {
         .users
