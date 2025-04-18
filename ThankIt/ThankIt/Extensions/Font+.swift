@@ -8,6 +8,7 @@
 import SwiftUI
 
 extension Font {
+    static let extraFont = Font.system(size: 36, weight: .bold)
     static let titleFont = Font.system(size: 24, weight: .bold)
     static let buttonFont = Font.system(size: 20, weight: .semibold)
     static let categoryFont = Font.system(size: 20, weight: .medium)
