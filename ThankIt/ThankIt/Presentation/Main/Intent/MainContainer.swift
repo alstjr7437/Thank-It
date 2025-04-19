@@ -8,16 +8,8 @@
 import Foundation
 import Combine
 
-struct MainState {
-    var thanks: [Thank] = []
-    var selectedFlavor: UserScope = .all
-    var selectedThank: Thank? = nil
-    var isLoading: Bool = false
-    var errorMessage: String? = nil
-}
-
 @MainActor
-final class MainViewModel: ObservableObject {
+final class MainContainer: ObservableObject {
     @Published private(set) var state = MainState()
     
     func send(_ intent: MainIntent) {
@@ -27,6 +19,7 @@ final class MainViewModel: ObservableObject {
             
         case .selectFlavor(let flavor):
             state.selectedFlavor = flavor
+            filterThanks()
             
         case .selectThank(let thank):
             state.selectedThank = thank
@@ -42,11 +35,21 @@ final class MainViewModel: ObservableObject {
             do {
                 let thanks = try await FirebaseManager.shared.fetch(as: Thank.self, .thank)
                 state.thanks = thanks
+                filterThanks()
             } catch {
                 state.errorMessage = error.localizedDescription
             }
             
             state.isLoading = false
+        }
+    }
+    
+    private func filterThanks() {
+        switch state.selectedFlavor {
+        case .all:
+            state.filteredThanks = state.thanks
+        case .me:
+            state.filteredThanks = state.thanks.filter { $0.user.nickName == state.userNickName }
         }
     }
 }

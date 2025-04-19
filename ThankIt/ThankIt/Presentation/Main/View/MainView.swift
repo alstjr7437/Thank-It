@@ -9,8 +9,7 @@ import SwiftUI
 import PopupView
 
 struct MainView: View {
-    @AppStorage("userNickname") private var userNickname: String = ""
-    @StateObject private var viewModel = MainViewModel()
+    @StateObject private var container = MainContainer()
     
     private(set) var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
 
@@ -20,8 +19,8 @@ struct MainView: View {
                 ScrollView {
                     // MARK: Picker
                     Picker("UserScope", selection: Binding(
-                        get: { viewModel.state.selectedFlavor },
-                        set: { viewModel.send(.selectFlavor($0)) }
+                        get: { container.state.selectedFlavor },
+                        set: { container.send(.selectFlavor($0)) }
                     )) {
                         Text(UserScope.all.rawValue).tag(UserScope.all)
                         Text(UserScope.me.rawValue).tag(UserScope.me)
@@ -33,9 +32,9 @@ struct MainView: View {
                     
                     // MARK: Main Data
                     LazyVGrid(columns: columns, spacing: Metrics.verticalGridSpacing) {
-                        ForEach(filteredThanks) { thank in
+                        ForEach(container.state.filteredThanks) { thank in
                             PostItView(thank: thank, size: Metrics.postItListSize)
-                                .onTapGesture { viewModel.send(.selectThank(thank)) }
+                                .onTapGesture { container.send(.selectThank(thank)) }
                         }
                     }
                 }
@@ -49,7 +48,7 @@ struct MainView: View {
                 }
                 .frame(maxHeight: .infinity, alignment: .bottom)
                 
-                if viewModel.state.isLoading {
+                if container.state.isLoading {
                     ProgressView("불러오는 중")
                         .progressViewStyle(CircularProgressViewStyle())
                         .foregroundColor(.gray)
@@ -58,19 +57,20 @@ struct MainView: View {
                 
             }
         }
+        // MARK: 화면 Load
         .onAppear {
-            viewModel.send(.onAppear)
+            container.send(.onAppear)
         }
         
         // MARK: 팝업 화면
         .popup(
             isPresented: Binding(
-                get: { viewModel.state.selectedThank != nil },
-                set: { if !$0 { viewModel.send(.selectThank(nil)) }}
+                get: { container.state.selectedThank != nil },
+                set: { if !$0 { container.send(.selectThank(nil)) }}
             )
         ) {
-            if let thank = viewModel.state.selectedThank {
-                ThankDetailView(thank: thank, userNickName: userNickname)
+            if let thank = container.state.selectedThank {
+                ThankDetailView(thank: thank, userNickName: container.state.userNickName)
             }
         } customize: {
             $0.backgroundColor(.black.opacity(0.5))
@@ -80,38 +80,18 @@ struct MainView: View {
         
         // MARK: 에러 화면
         .alert("에러", isPresented: Binding<Bool>(
-            get: { viewModel.state.errorMessage != nil },
+            get: { container.state.errorMessage != nil },
             set: { isPresented in
                 if !isPresented {
-                    viewModel.send(.clearError)
+                    container.send(.clearError)
                 }
             }
         )) {
             Button("확인", role: .cancel) { }
         } message: {
-            Text(viewModel.state.errorMessage ?? "알 수 없는 에러가 발생했어요.")
-        }
-        
-    }
-}
-
-// MARK: - Thanks Filter
-
-extension MainView {
-    private var filteredThanks: [Thank] {
-        switch viewModel.state.selectedFlavor {
-        case .all:
-            return viewModel.state.thanks
-        case .me:
-            return viewModel.state.thanks.filter { $0.user.nickName == userNickname }
+            Text(container.state.errorMessage ?? "알 수 없는 에러가 발생했어요.")
         }
     }
-}
-
-// MARK: - User Scope
-enum UserScope: String {
-    case all = "All"
-    case me = "Me"
 }
 
 private extension MainView {
