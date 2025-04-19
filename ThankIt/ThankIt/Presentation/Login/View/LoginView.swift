@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct LoginView: View {
-    
-    @AppStorage("userNickname") private var savedNickname: String = ""
-    @State private var nickname: String = ""
+    private let container = LoginContainer()
+    @State var nickName: String = ""
     
     var body: some View {
         VStack(spacing: 60) {
@@ -28,7 +27,7 @@ struct LoginView: View {
                     .shadow(radius: 4, x: 1, y: 4)
 
                 // 텍스트 필드
-                TextField("닉네임", text: $nickname)
+                TextField("닉네임", text: $nickName)
                     .font(.extraFont)
                     .foregroundColor(.black)
                     .multilineTextAlignment(.center)
@@ -39,7 +38,7 @@ struct LoginView: View {
             Spacer()
             
             CreateButtonView {
-                savedNickname = nickname
+                container.send(.saveNickName(nickName))
             }
         }
         .padding()
