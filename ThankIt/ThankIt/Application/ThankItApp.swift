@@ -10,10 +10,15 @@ import SwiftUI
 @main
 struct ThankItApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @AppStorage("userNickname") var userNickname: String = ""
     
     var body: some Scene {
         WindowGroup {
-            MainView(thanks: DummyData.Thanks)
+            if userNickname.isEmpty {
+                LoginView()
+            } else {
+                MainView()
+            }
         }
     }
 }

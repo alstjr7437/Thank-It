@@ -9,20 +9,19 @@ import SwiftUI
 import PopupView
 
 struct MainView: View {
-    @AppStorage("userNickname") private var userNickname: String = ""
-    @State var selectedFlavor: UserScope = .all
-    @State private var selectedThank: Thank? = nil
+    @StateObject private var container = MainContainer()
     
     private(set) var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
-
-    let thanks: [Thank]
 
     var body: some View {
         NavigationStack {
             ZStack {
                 ScrollView {
                     // MARK: Picker
-                    Picker("UserScope", selection: $selectedFlavor) {
+                    Picker("UserScope", selection: Binding(
+                        get: { container.state.selectedFlavor },
+                        set: { container.send(.selectFlavor($0)) }
+                    )) {
                         Text(UserScope.all.rawValue).tag(UserScope.all)
                         Text(UserScope.me.rawValue).tag(UserScope.me)
                     }
@@ -33,9 +32,9 @@ struct MainView: View {
                     
                     // MARK: Main Data
                     LazyVGrid(columns: columns, spacing: Metrics.verticalGridSpacing) {
-                        ForEach(filteredThanks) { thank in
+                        ForEach(container.state.filteredThanks) { thank in
                             PostItView(thank: thank, size: Metrics.postItListSize)
-                                .onTapGesture { selectedThank = thank }
+                                .onTapGesture { container.send(.selectThank(thank)) }
                         }
                     }
                 }
@@ -48,19 +47,30 @@ struct MainView: View {
                         .padding(.bottom, Metrics.createButtonPadding)
                 }
                 .frame(maxHeight: .infinity, alignment: .bottom)
+                
+                if container.state.isLoading {
+                    ProgressView("불러오는 중")
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .foregroundColor(.gray)
+                        .padding()
+                }
+                
             }
         }
-        // MARK: 팝업
+        // MARK: 화면 Load
+        .onAppear {
+            container.send(.onAppear)
+        }
+        
+        // MARK: 팝업 화면
         .popup(
             isPresented: Binding(
-                get: { selectedThank != nil },
-                set: { isPresented in
-                    if !isPresented { selectedThank = nil }
-                }
+                get: { container.state.selectedThank != nil },
+                set: { if !$0 { container.send(.selectThank(nil)) }}
             )
         ) {
-            if let thank = selectedThank {
-                ThankDetailView(thank: thank, userNickName: userNickname)
+            if let thank = container.state.selectedThank {
+                ThankDetailView(thank: thank, userNickName: container.state.userNickName)
             }
         } customize: {
             $0.backgroundColor(.black.opacity(0.5))
@@ -68,26 +78,20 @@ struct MainView: View {
                 .closeOnTap(false)
         }
         
-    }
-}
-
-// MARK: - Thanks Filter
-
-extension MainView {
-    private var filteredThanks: [Thank] {
-        switch selectedFlavor {
-        case .all:
-            return thanks
-        case .me:
-            return thanks.filter { $0.user.nickName == userNickname }
+        // MARK: 에러 화면
+        .alert("에러", isPresented: Binding<Bool>(
+            get: { container.state.errorMessage != nil },
+            set: { isPresented in
+                if !isPresented {
+                    container.send(.clearError)
+                }
+            }
+        )) {
+            Button("확인", role: .cancel) { }
+        } message: {
+            Text(container.state.errorMessage ?? "알 수 없는 에러가 발생했어요.")
         }
     }
-}
-
-// MARK: - User Scope
-enum UserScope: String {
-    case all = "All"
-    case me = "Me"
 }
 
 private extension MainView {
@@ -103,5 +107,5 @@ private extension MainView {
 // MARK: - Preview
 
 #Preview {
-    MainView(thanks: DummyData.Thanks)
+    MainView()
 }
