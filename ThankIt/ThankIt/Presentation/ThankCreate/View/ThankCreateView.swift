@@ -16,29 +16,56 @@ struct ThankCreateView: View {
     
     var body: some View {
         VStack {
-            TextField("감사한 일을 적어주세요!", text: $content)
-            createSelectView(title: "공개 여부", isOn: $isPublic)
-            createSelectView(title: "익명 여부", isOn: $isAnonymous)
-            DatePickerOptionView(title: "날짜 선택", selectedDate: $selectedDate)
-            ColorPickerOptionView(title: "색상 선택", selectedColor: $selectedColor)
+            ScrollView {
+                VStack(spacing: 10) {
+                    ZStack(alignment: .topLeading) {
+                        PostItBackgroundView(postIt: .square(color: .yellow))
+                            .shadow(radius: 4, x: 1, y: 4)
+
+                        TextEditor(text: $content)
+                            .padding(20)
+                            .background(Color.clear)
+                            .scrollContentBackground(.hidden)
+                            .foregroundColor(.black)
+                            .font(.basicFont)
+                    }
+                    .frame(width: 350, height: 350)
+                    .padding(.bottom, 20)
+
+                    CreateSelectView(title: "공개 여부", isOn: $isPublic)
+                    CreateSelectView(title: "익명 여부", isOn: $isAnonymous)
+                    DatePickerOptionView(title: "날짜 선택", selectedDate: $selectedDate)
+                    ColorPickerOptionView(title: "색상 선택", selectedColor: $selectedColor)
+                }
+                .padding()
+            }
             Spacer()
             CreateButtonView {
                 print("hello")
             }
+            .padding()
         }
+        .onTapGesture {
+            UIApplication.shared.endEditing()
+        }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 
 extension ThankCreateView {
-    struct createSelectView: View {
+    struct CreateSelectView: View {
         let title: String
         @Binding var isOn: Bool
         var body: some View {
             HStack {
                 Text(title)
+                    .font(.categoryFont)
                 Spacer()
                 Toggle("", isOn: $isOn)
                     .labelsHidden()
+                    .onChange(of: isOn) {
+                        UIApplication.shared.endEditing()
+                    }
             }
             .padding(.horizontal)
         }
@@ -51,6 +78,7 @@ extension ThankCreateView {
         var body: some View {
             HStack {
                 Text(title)
+                    .font(.categoryFont)
                 Spacer()
                 DatePicker("", selection: $selectedDate, displayedComponents: .date)
                     .labelsHidden()
@@ -69,6 +97,7 @@ extension ThankCreateView {
         var body: some View {
             HStack() {
                 Text(title)
+                    .font(.categoryFont)
                 Spacer()
                 HStack {
                     ForEach(colors, id: \.self) { color in
@@ -81,6 +110,7 @@ extension ThankCreateView {
                             )
                             .onTapGesture {
                                 selectedColor = color
+                                UIApplication.shared.endEditing()
                             }
                     }
                 }
@@ -92,4 +122,9 @@ extension ThankCreateView {
 
 #Preview {
     ThankCreateView()
+}
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }
