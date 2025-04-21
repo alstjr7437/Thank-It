@@ -38,6 +38,9 @@ struct MainView: View {
                         }
                     }
                 }
+                .refreshable {
+                    container.send(.onAppear)
+                }
                 
                 // MARK: 생성 버튼
                 NavigationLink(destination: ThankCreateView()) {
