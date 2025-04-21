@@ -12,14 +12,14 @@ struct ThankCreateView: View {
     @State private var isPublic: Bool = false
     @State private var isAnonymous: Bool = false
     @State private var selectedDate: Date = Date()
-    @State private var selectedColor: Color = .main
+    @State private var selectedColor: PostItColor = .yellow
     
     var body: some View {
         VStack {
             ScrollView {
                 VStack(spacing: 10) {
                     ZStack(alignment: .topLeading) {
-                        PostItBackgroundView(postIt: .square(color: .yellow))
+                        PostItBackgroundView(postIt: .square(color: selectedColor))
                             .shadow(radius: 4, x: 1, y: 4)
 
                         TextEditor(text: $content)
@@ -43,7 +43,6 @@ struct ThankCreateView: View {
             CreateButtonView {
                 print("hello")
             }
-            .padding()
         }
         .onTapGesture {
             UIApplication.shared.endEditing()
@@ -91,8 +90,7 @@ extension ThankCreateView {
     
     struct ColorPickerOptionView: View {
         let title: String
-        @Binding var selectedColor: Color
-        let colors: [Color] = [.main, .postColor1, .postColor2, .postColor3]
+        @Binding var selectedColor: PostItColor
 
         var body: some View {
             HStack() {
@@ -100,9 +98,9 @@ extension ThankCreateView {
                     .font(.categoryFont)
                 Spacer()
                 HStack {
-                    ForEach(colors, id: \.self) { color in
+                    ForEach(PostItColor.allCases, id: \.self) { color in
                         Circle()
-                            .fill(color)
+                            .fill(Color(color.rawValue))
                             .frame(width: 30, height: 30)
                             .overlay(
                                 Circle()
@@ -122,9 +120,4 @@ extension ThankCreateView {
 
 #Preview {
     ThankCreateView()
-}
-extension UIApplication {
-    func endEditing() {
-        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
 }

@@ -11,7 +11,7 @@ enum PostIt: Codable {
     case apple
 }
 
-enum PostItColor: String, Codable {
+enum PostItColor: String, Codable, CaseIterable {
     case yellow = "MainColor"
     case pink = "PostColor1"
     case blue = "PostColor2"
