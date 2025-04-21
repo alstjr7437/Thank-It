@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct ThankCreateView: View {
+    @Environment(\.dismiss) private var dismiss
+    
     @State private var content: String = ""
     @State private var isPublic: Bool = false
     @State private var isAnonymous: Bool = false
     @State private var selectedDate: Date = Date()
     @State private var selectedColor: PostItColor = .yellow
+    
+    @StateObject private var container: ThankCraateContainer = ThankCraateContainer()
     
     var body: some View {
         VStack {
@@ -41,11 +45,22 @@ struct ThankCreateView: View {
             }
             Spacer()
             CreateButtonView {
-                print("hello")
+                container.send(
+                    .createThank(
+                        cotent: content,
+                        isPublic: isPublic,
+                        isAnonymous: isAnonymous,
+                        postIt: PostIt.square(color: selectedColor),
+                        selectedDate: selectedDate
+                    )
+                )
             }
         }
         .onTapGesture {
             UIApplication.shared.endEditing()
+        }
+        .onChange(of: container.state.isSuccess) { _, isSuccess in
+            if isSuccess { dismiss() }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
     }

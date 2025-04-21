@@ -6,17 +6,41 @@
 //
 
 import Combine
+import Foundation
 
 @MainActor
-final class ThankCraateContainer {
+final class ThankCraateContainer: ObservableObject {
     @Published private(set) var state = ThankCreateState()
     
     func send(_ intent: ThankCreateIntent) {
         switch intent {
-        case .createThank(let thank):
+        case let .createThank(content, isPublic, isAnonymous, postIt, selectedDate):
+            let userNickName: String = UserDefaults.standard.string(forKey: "userNickname") ?? ""
+            let thank = Thank(
+                id: UUID(),
+                user: User(nickName: userNickName),
+                isPublic: isPublic,
+                isAnonymous: isAnonymous,
+                content: content,
+                postIt: postIt,
+                displayDate: selectedDate
+            )
             createThank(thank)
         }
     }
     
-    private func createThank(_ thank: Thank) {}
+    private func createThank(_ thank: Thank) {
+        Task {
+            state.isLoading = true
+            
+            do {
+                _ = try await FirebaseManager.shared.create(thank)
+            } catch {
+                state.errorMessage = error.localizedDescription
+            }
+            
+            state.isLoading = false
+            state.isSuccess = true
+        }
+    }
 }

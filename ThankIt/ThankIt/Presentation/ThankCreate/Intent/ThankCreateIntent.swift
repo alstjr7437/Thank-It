@@ -5,6 +5,14 @@
 //  Created by 김민석 on 4/20/25.
 //
 
+import Foundation
+
 enum ThankCreateIntent {
-    case createThank(Thank)
+    case createThank(
+        cotent: String,
+        isPublic: Bool,
+        isAnonymous: Bool,
+        postIt: PostIt,
+        selectedDate: Date,
+    )
 }

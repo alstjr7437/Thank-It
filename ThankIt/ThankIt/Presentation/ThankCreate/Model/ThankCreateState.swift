@@ -7,4 +7,8 @@
 
 struct ThankCreateState {
     var thank: Thank? = nil
+    
+    var isLoading: Bool = false
+    var isSuccess: Bool = false
+    var errorMessage: String? = nil
 }
