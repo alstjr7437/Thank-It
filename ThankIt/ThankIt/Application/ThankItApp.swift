@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct ThankItApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @AppStorage("userNickname") var userNickname: String = ""
+    @AppStorage(UserDefaultsKeys.userNickname) var userNickname: String = ""
     
     var body: some Scene {
         WindowGroup {
