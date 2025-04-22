@@ -14,6 +14,7 @@ struct ThankCreateView: View {
     @StateObject private var container = ThankCraateContainer()
     
     @Environment(\.dismiss) private var dismiss
+    var onComplete: (() -> Void)
     
     var body: some View {
         VStack {
@@ -52,10 +53,13 @@ struct ThankCreateView: View {
         .onChange(of: [container.state.isSuccess, form.isPublic, form.isAnonymous] ) { _, new in
             let isSuccess = new[0], isPublic = new[1], isAnonymous = new[2]
             
-            if isSuccess { dismiss() }
-            
             UserDefaults.standard.set(isPublic, forKey: UserDefaultsKeys.isPublic)
             UserDefaults.standard.set(isAnonymous, forKey: UserDefaultsKeys.isAnonymous)
+            
+            if isSuccess {
+                onComplete()
+                dismiss()
+            }
         }
         .popup(
             isPresented: Binding(
@@ -143,5 +147,5 @@ extension ThankCreateView {
 }
 
 #Preview {
-    ThankCreateView()
+    ThankCreateView{}
 }
