@@ -16,7 +16,7 @@ struct ThankCreateView: View {
     @Environment(\.dismiss) private var dismiss
     var onComplete: (() -> Void)
     
-    var isButtonDisabled: Bool {
+    private var isButtonDisabled: Bool {
         form.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
@@ -82,6 +82,8 @@ struct ThankCreateView: View {
         }
     }
 }
+
+// MARK: - 생성 뷰 컴포넌트들
 
 extension ThankCreateView {
     struct CreateSelectView: View {
@@ -153,6 +155,8 @@ extension ThankCreateView {
         }
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     ThankCreateView{}
