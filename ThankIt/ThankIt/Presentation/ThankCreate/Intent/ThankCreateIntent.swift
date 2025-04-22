@@ -8,11 +8,5 @@
 import Foundation
 
 enum ThankCreateIntent {
-    case createThank(
-        cotent: String,
-        isPublic: Bool,
-        isAnonymous: Bool,
-        postIt: PostIt,
-        selectedDate: Date,
-    )
+    case createThank(form: CreateThankForm)
 }

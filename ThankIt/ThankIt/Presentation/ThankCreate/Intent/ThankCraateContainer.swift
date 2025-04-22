@@ -14,22 +14,19 @@ final class ThankCraateContainer: ObservableObject {
     
     func send(_ intent: ThankCreateIntent) {
         switch intent {
-        case let .createThank(content, isPublic, isAnonymous, postIt, selectedDate):
-            let userNickName: String = UserDefaults.standard.string(forKey: "userNickname") ?? ""
-            let thank = Thank(
-                id: UUID(),
-                user: User(nickName: userNickName),
-                isPublic: isPublic,
-                isAnonymous: isAnonymous,
-                content: content,
-                postIt: postIt,
-                displayDate: selectedDate
-            )
-            createThank(thank)
+        case let .createThank(form):
+            createThank(form)
         }
     }
     
-    private func createThank(_ thank: Thank) {
+    private func createThank(_ thankForm: CreateThankForm) {
+        guard let userNickName = UserDefaults.standard.string(forKey: "userNickname") else {
+            state.errorMessage = "닉네임이 없습니다."
+            return
+        }
+        
+        let thank = thankForm.toDomain(nickName: userNickName)
+        
         Task {
             state.isLoading = true
             
