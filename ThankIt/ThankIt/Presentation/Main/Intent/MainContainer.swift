@@ -32,7 +32,9 @@ final class MainContainer: ObservableObject {
         Task {
             state.isLoading = true
             do {
-                let thanks = try await FirebaseManager.shared.fetch(as: Thank.self, .thank)
+                let thanks = try await FirebaseManager
+                    .shared
+                    .fetch(as: Thank.self, .thank, count: 30, order: "displayDate")
                 state.thanks = thanks
                 filterThanks()
             } catch {
