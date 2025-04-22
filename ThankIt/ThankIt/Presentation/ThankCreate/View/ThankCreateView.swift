@@ -25,7 +25,7 @@ struct ThankCreateView: View {
             ScrollView {
                 VStack(spacing: 10) {
                     ZStack(alignment: .topLeading) {
-                        PostItBackgroundView(postIt: .square(color: form.selectedColor))
+                        PostItBackgroundView(postIt: form.selectedPostIt)
                             .shadow(radius: 4, x: 1, y: 4)
 
                         TextEditor(text: $form.content)
@@ -40,8 +40,8 @@ struct ThankCreateView: View {
 
                     CreateSelectView(title: "공개 여부", isOn: $form.isPublic)
                     CreateSelectView(title: "익명 여부", isOn: $form.isAnonymous)
-                    DatePickerOptionView(title: "날짜 선택", selectedDate: $form.selectedDate)
-                    ColorPickerOptionView(title: "색상 선택", selectedColor: $form.selectedColor)
+                    DatePickerView(title: "날짜 선택", selectedDate: $form.selectedDate)
+                    PostItPickerView(title: "포스트잇 선택", selectedPostIt: $form.selectedPostIt)
                 }
                 .padding()
             }
@@ -102,7 +102,7 @@ extension ThankCreateView {
         }
     }
     
-    struct DatePickerOptionView: View {
+    struct DatePickerView: View {
         let title: String
         @Binding var selectedDate: Date
 
@@ -120,26 +120,30 @@ extension ThankCreateView {
         }
     }
     
-    struct ColorPickerOptionView: View {
+    struct PostItPickerView: View {
         let title: String
-        @Binding var selectedColor: PostItColor
+        @Binding var selectedPostIt: PostIt
 
         var body: some View {
-            HStack() {
+            HStack {
                 Text(title)
                     .font(.categoryFont)
                 Spacer()
                 HStack {
-                    ForEach(PostItColor.allCases, id: \.self) { color in
-                        Circle()
-                            .fill(Color(color.rawValue))
+                    ForEach(PostIt.allCases, id: \.self) { postit in
+                        PostItBackgroundView(postIt: postit)
                             .frame(width: 30, height: 30)
                             .overlay(
-                                Circle()
-                                    .stroke(Color.black, lineWidth: selectedColor == color ? 2 : 0)
+                                Group {
+                                    if selectedPostIt == postit {
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .foregroundColor(.red)
+                                            .offset(x: 10, y: -10)
+                                    }
+                                }
                             )
                             .onTapGesture {
-                                selectedColor = color
+                                selectedPostIt = postit
                                 UIApplication.shared.endEditing()
                             }
                     }
