@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CreateButtonView: View {
+    var isDisabled: Bool = false
     var action: () -> Void
     
     var body: some View {
@@ -16,9 +17,10 @@ struct CreateButtonView: View {
                 .font(.buttonFont)
                 .frame(width: 343, height: 52)
                 .foregroundStyle(.white)
-                .background(.point)
+                .background(isDisabled ? Color.gray : .point)
                 .cornerRadius(8)
         }
+        .disabled(isDisabled)
     }
 }
 

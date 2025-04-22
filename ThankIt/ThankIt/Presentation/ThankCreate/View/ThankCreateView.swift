@@ -16,6 +16,10 @@ struct ThankCreateView: View {
     @Environment(\.dismiss) private var dismiss
     var onComplete: (() -> Void)
     
+    var isButtonDisabled: Bool {
+        form.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
     var body: some View {
         VStack {
             ScrollView {
@@ -42,7 +46,7 @@ struct ThankCreateView: View {
                 .padding()
             }
             Spacer()
-            CreateButtonView {
+            CreateButtonView(isDisabled: isButtonDisabled) {
                 container.send(.createThank(form: form))
             }
         }
