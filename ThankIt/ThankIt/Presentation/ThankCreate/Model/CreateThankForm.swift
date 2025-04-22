@@ -9,8 +9,8 @@ import Foundation
 
 struct CreateThankForm {
     var content: String = ""
-    var isPublic: Bool = false
-    var isAnonymous: Bool = false
+    var isPublic: Bool = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isPublic)
+    var isAnonymous: Bool = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isAnonymous)
     var selectedDate: Date = Date()
     var selectedColor: PostItColor = .yellow
     

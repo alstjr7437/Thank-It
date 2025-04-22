@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PopupView
 
 struct ThankCreateView: View {
     
@@ -48,8 +49,13 @@ struct ThankCreateView: View {
         .onTapGesture {
             UIApplication.shared.endEditing()
         }
-        .onChange(of: container.state.isSuccess) { _, isSuccess in
+        .onChange(of: [container.state.isSuccess, form.isPublic, form.isAnonymous] ) { _, new in
+            let isSuccess = new[0], isPublic = new[1], isAnonymous = new[2]
+            
             if isSuccess { dismiss() }
+            
+            UserDefaults.standard.set(isPublic, forKey: UserDefaultsKeys.isPublic)
+            UserDefaults.standard.set(isAnonymous, forKey: UserDefaultsKeys.isAnonymous)
         }
         .popup(
             isPresented: Binding(
