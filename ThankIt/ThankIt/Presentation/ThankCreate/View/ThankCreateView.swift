@@ -21,6 +21,7 @@ struct ThankCreateView: View {
     }
 
     var body: some View {
+        // MARK: View
         VStack {
             ScrollView {
                 VStack(spacing: 10) {
@@ -50,10 +51,14 @@ struct ThankCreateView: View {
                 container.send(.createThank(form: form))
             }
         }
+        
+        // MARK: Keyboard
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .onTapGesture {
             UIApplication.shared.endEditing()
         }
+        
+        // MARK: State Change
         .onChange(of: [container.state.isSuccess, form.isPublic, form.isAnonymous] ) { _, new in
             let isSuccess = new[0], isPublic = new[1], isAnonymous = new[2]
             
@@ -65,6 +70,8 @@ struct ThankCreateView: View {
                 dismiss()
             }
         }
+        
+        // MARK: Loading
         .popup(
             isPresented: Binding(
                 get: { container.state.isLoading },
@@ -86,6 +93,7 @@ struct ThankCreateView: View {
 // MARK: - 생성 뷰 컴포넌트들
 
 extension ThankCreateView {
+    // MARK: Toggle Components
     struct CreateSelectView: View {
         let title: String
         @Binding var isOn: Bool
@@ -104,6 +112,7 @@ extension ThankCreateView {
         }
     }
     
+    // MARK: Date Components
     struct DatePickerView: View {
         let title: String
         @Binding var selectedDate: Date
@@ -122,6 +131,7 @@ extension ThankCreateView {
         }
     }
     
+    // MARK: PostItPicker Components
     struct PostItPickerView: View {
         let title: String
         @Binding var selectedPostIt: PostIt
