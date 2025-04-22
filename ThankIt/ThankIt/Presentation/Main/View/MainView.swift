@@ -38,9 +38,14 @@ struct MainView: View {
                         }
                     }
                 }
+                .refreshable {
+                    container.send(.onAppear)
+                }
                 
                 // MARK: 생성 버튼
-                NavigationLink(destination: ThankCreateView()) {
+                NavigationLink(destination: ThankCreateView {
+                    container.send(.onAppear)
+                }) {
                     Image(.createButton)
                         .resizable()
                         .frame(width: Metrics.createButtonFrame, height: Metrics.createButtonFrame)
