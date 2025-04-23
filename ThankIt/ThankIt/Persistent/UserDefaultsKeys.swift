@@ -8,5 +8,5 @@
 enum UserDefaultsKeys {
     static let isPublic = "isPublic"
     static let isAnonymous = "isAnonymous"
-    static let userNickname = "userNickname"
+    static let userNickName = "userNickname"
 }
