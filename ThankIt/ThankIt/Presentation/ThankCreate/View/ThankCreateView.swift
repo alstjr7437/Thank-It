@@ -48,7 +48,7 @@ struct ThankCreateView: View {
                 .padding()
             }
             Spacer()
-            CreateButtonView(isDisabled: isButtonDisabled) {
+            CreateButtonView(text: thank == nil ? "생성하기" :"수정하기", isDisabled: isButtonDisabled) {
                 if let thank = thank {
                     container.send(.updateThank(form: form, id: thank.id.uuidString))
                 } else {
@@ -84,7 +84,7 @@ struct ThankCreateView: View {
             )
         ) {
             VStack(spacing: 16) {
-                ProgressView("생성 중...")
+                ProgressView(thank == nil ? "생성 중..." : "수정 중...")
                     .progressViewStyle(CircularProgressViewStyle())
                     .foregroundColor(.white)
                     .tint(.white)
