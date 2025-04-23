@@ -31,7 +31,7 @@ struct MainView: View {
                     if !container.state.isLoading {
                         // MARK: Main Data
                         LazyVGrid(columns: columns, spacing: Metrics.verticalGridSpacing) {
-                            ForEach(container.state.filteredThanks) { thank in
+                            ForEach(container.state.thanks) { thank in
                                 PostItView(thank: thank, size: Metrics.postItListSize)
                                     .onTapGesture { container.send(.selectThank(thank)) }
                             }

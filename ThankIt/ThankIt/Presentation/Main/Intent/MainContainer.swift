@@ -60,7 +60,6 @@ final class MainContainer: ObservableObject {
                 }
 
                 state.thanks = thanks
-                state.filteredThanks = thanks // filteredThanks도 바로 사용
 
             } catch {
                 state.errorMessage = error.localizedDescription
