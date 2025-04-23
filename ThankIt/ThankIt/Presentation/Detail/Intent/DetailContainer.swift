@@ -19,11 +19,25 @@ final class DetailContainer: ObservableObject {
         switch intent {
         case .deleteThank(let thank):
             deleteThank(thank)
+        case .updatedThank(let id):
+            updatedThank(id)
         }
     }
     
-    private func updateThank(_ id: String){
-        
+    private func updatedThank(_ id: String){
+        Task {
+            state.isLoading = true
+            
+            do {
+                if let fetchedThank: Thank = try await FirebaseManager.shared.get(id, collectionType: .thank) {
+                    state.thank = fetchedThank
+                }
+            } catch {
+                state.errorMessage = error.localizedDescription
+            }
+            state.isLoading = false
+            state.isSuccess = (true, false)
+        }
     }
     
     
@@ -38,7 +52,7 @@ final class DetailContainer: ObservableObject {
             }
             
             state.isLoading = false
-            state.isSuccess = true
+            state.isSuccess = (false, true)
         }
     }
 }

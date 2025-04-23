@@ -7,4 +7,5 @@
 
 enum DetailIntent {
     case deleteThank(Thank)
+    case updatedThank(_ id: String)
 }

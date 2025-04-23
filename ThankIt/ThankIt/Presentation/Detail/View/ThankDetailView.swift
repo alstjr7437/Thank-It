@@ -11,11 +11,18 @@ struct ThankDetailView: View {
     
     @StateObject private var container: DetailContainer
     @State private var showDeleteAlert = false
-    var onComplete: (() -> Void)
+    var deleteComplete: (() -> Void)
+    var updateComplete: (() -> Void)
 
-    init(thank: Thank, userNickName: String, onComplete: @escaping () -> Void) {
+    init(
+        thank: Thank,
+        userNickName: String,
+        deleteComplete: @escaping () -> Void,
+        updateComplete: @escaping () -> Void
+    ) {
         _container = StateObject(wrappedValue: DetailContainer(thank: thank, userNickName: userNickName))
-        self.onComplete = onComplete
+        self.deleteComplete = deleteComplete
+        self.updateComplete = updateComplete
     }
     
     var state: DetailState { return container.state }
@@ -29,7 +36,7 @@ struct ThankDetailView: View {
                     HStack(spacing: 20) {
                         NavigationLink {
                             ThankCreateView(thank: state.thank) {
-                                // TODO: 완료하고 데이터 동기화 처리
+                                container.send(.updatedThank(state.thank.id.uuidString))
                             }
                         } label: {
                             Text("수정하기")
@@ -64,8 +71,12 @@ struct ThankDetailView: View {
         } message: {
             Text("해당 감사한 일을 삭제하면\n추후에 확인하지 못합니다.")
         }
-        .onChange(of: state.isSuccess) { _, _ in
-            onComplete()
+        .onChange(of: [state.isSuccess.0, state.isSuccess.1]) { _, _ in
+            if state.isSuccess.0 {
+                updateComplete()
+            } else if state.isSuccess.1 {
+                deleteComplete()
+            }
         }
     }
 }
@@ -80,5 +91,5 @@ private extension ThankDetailView {
 }
 
 #Preview {
-    ThankDetailView(thank: DummyData.Thanks[0], userNickName: "Kinder") {}
+    ThankDetailView(thank: DummyData.Thanks[0], userNickName: "Kinder") {} updateComplete: {}
 }

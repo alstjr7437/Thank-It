@@ -10,6 +10,7 @@ enum MainIntent {
     case selectFlavor(UserScope)
     case selectThank(Thank?)
     case deletedThank
+    case updatedThank(Thank)
     case refreshNickName
     case clearError
 }

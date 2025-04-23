@@ -71,6 +71,8 @@ struct MainView: View {
                     
                     ThankDetailView(thank: thank, userNickName: state.userNickName) {
                         container.send(.deletedThank)
+                    } updateComplete: {
+                        container.send(.onAppear)
                     }
                 }
             }

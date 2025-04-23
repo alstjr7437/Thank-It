@@ -6,9 +6,9 @@
 //
 
 struct DetailState {
-    var isSuccess: Bool = false
+    var isSuccess: (Bool, Bool) = (false, false)
     
-    let thank: Thank
+    var thank: Thank
     let userNickName: String
     var isLoading = false
     var errorMessage: String? = nil
