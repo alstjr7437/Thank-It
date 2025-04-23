@@ -55,7 +55,7 @@ final class MainContainer: ObservableObject {
                         .thank,
                         whereFeild: "userNickName",
                         equalData: state.userNickName,
-                        order: "displayDate",
+                        order: "displayDate"
                     )
                 }
 
