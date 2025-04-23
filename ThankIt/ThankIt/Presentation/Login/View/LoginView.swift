@@ -11,6 +11,14 @@ struct LoginView: View {
     private let container = LoginContainer()
     @State var nickName: String = ""
     
+    @Environment(\.dismiss) private var dismiss
+    var onComplete: (() -> Void)
+    
+    init(nickName: String = "", onComplete: @escaping () -> Void) {
+        self._nickName = State(initialValue: nickName)
+        self.onComplete = onComplete
+    }
+    
     var body: some View {
         VStack(spacing: 60) {
             Spacer()
@@ -39,6 +47,8 @@ struct LoginView: View {
             
             CreateButtonView {
                 container.send(.saveNickName(nickName))
+                onComplete()
+                dismiss()
             }
         }
         .padding()
@@ -46,5 +56,5 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+    LoginView(onComplete: {})
 }
