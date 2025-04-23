@@ -17,7 +17,6 @@ struct ThankDetailView: View {
     
     var state: DetailState { return container.state }
     
-    
     var body: some View {
         VStack(spacing: 30) {
             PostItView(thank: state.thank, size: Metrics.detailPostItSize)
@@ -32,7 +31,9 @@ struct ThankDetailView: View {
         var body: some View {
             HStack(spacing: 20) {
                 Button {
-                    // TODO: 수정하기 로직
+//                    ThankCreateView(create: false, thank: thank) {
+//                        // TODO: Reload Data
+//                    }
                 } label: {
                     Text("수정하기")
                         .frame(width: Metrics.buttonWidthFrame, height: Metrics.buttonHeightFrame)
@@ -54,6 +55,7 @@ struct ThankDetailView: View {
                 }
             }
         }
+        
     }
 }
 

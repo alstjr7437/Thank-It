@@ -10,4 +10,6 @@ struct DetailState {
     
     let thank: Thank
     let userNickName: String
+    var isLoading = false
+    var errorMessage: String? = nil
 }
