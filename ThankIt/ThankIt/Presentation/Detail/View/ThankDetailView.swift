@@ -11,9 +11,11 @@ struct ThankDetailView: View {
     
     @StateObject private var container: DetailContainer
     @State private var showDeleteAlert = false
-    
-    init(thank: Thank, userNickName: String) {
+    var onComplete: (() -> Void)
+
+    init(thank: Thank, userNickName: String, onComplete: @escaping () -> Void) {
         _container = StateObject(wrappedValue: DetailContainer(thank: thank, userNickName: userNickName))
+        self.onComplete = onComplete
     }
     
     var state: DetailState { return container.state }
@@ -62,6 +64,9 @@ struct ThankDetailView: View {
         } message: {
             Text("해당 감사한 일을 삭제하면\n추후에 확인하지 못합니다.")
         }
+        .onChange(of: state.isSuccess) { _, _ in
+            onComplete()
+        }
     }
 }
 
@@ -75,5 +80,5 @@ private extension ThankDetailView {
 }
 
 #Preview {
-    ThankDetailView(thank: DummyData.Thanks[0], userNickName: "Kinder")
+    ThankDetailView(thank: DummyData.Thanks[0], userNickName: "Kinder") {}
 }

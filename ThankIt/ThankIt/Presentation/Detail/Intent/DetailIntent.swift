@@ -6,6 +6,5 @@
 //
 
 enum DetailIntent {
-    case updateThank(String)
     case deleteThank(Thank)
 }

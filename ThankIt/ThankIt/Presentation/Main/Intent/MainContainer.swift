@@ -24,6 +24,10 @@ final class MainContainer: ObservableObject {
         case .selectThank(let thank):
             state.selectedThank = thank
             
+        case .deletedThank:
+            state.selectedThank = nil
+            fetchThanks()
+            
         case .refreshNickName:
             state.userNickName = UserDefaults.standard.string(forKey: UserDefaultsKeys.userNickName) ?? ""
 

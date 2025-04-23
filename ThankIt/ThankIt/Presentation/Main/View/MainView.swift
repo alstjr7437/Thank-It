@@ -69,7 +69,9 @@ struct MainView: View {
                             container.send(.selectThank(nil))  // 배경을 클릭하면 팝업을 닫도록 설정
                         }
                     
-                    ThankDetailView(thank: thank, userNickName: "Kinder")
+                    ThankDetailView(thank: thank, userNickName: state.userNickName) {
+                        container.send(.deletedThank)
+                    }
                 }
             }
             

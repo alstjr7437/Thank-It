@@ -17,8 +17,6 @@ final class DetailContainer: ObservableObject {
     
     func send(_ intent: DetailIntent) {
         switch intent {
-        case .updateThank(let id):
-            updateThank(id)
         case .deleteThank(let thank):
             deleteThank(thank)
         }

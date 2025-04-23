@@ -9,6 +9,7 @@ enum MainIntent {
     case onAppear
     case selectFlavor(UserScope)
     case selectThank(Thank?)
+    case deletedThank
     case refreshNickName
     case clearError
 }
