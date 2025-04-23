@@ -15,7 +15,7 @@ struct ThankDetailView: View {
         VStack(spacing: 30) {
             PostItView(thank: thank, size: Metrics.detailPostItSize)
             
-            if userNickName == thank.user.nickName {
+            if userNickName == thank.userNickName {
                 EditButtonView()
             }
         }

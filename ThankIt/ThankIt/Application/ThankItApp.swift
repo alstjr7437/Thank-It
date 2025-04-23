@@ -10,12 +10,12 @@ import SwiftUI
 @main
 struct ThankItApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @AppStorage(UserDefaultsKeys.userNickname) var userNickname: String = ""
+    @AppStorage(UserDefaultsKeys.userNickName) var userNickname: String = ""
     
     var body: some Scene {
         WindowGroup {
             if userNickname.isEmpty {
-                LoginView()
+                LoginView(onComplete: {})
             } else {
                 MainView()
             }

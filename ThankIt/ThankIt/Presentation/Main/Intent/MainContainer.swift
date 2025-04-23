@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 
 @MainActor
 final class MainContainer: ObservableObject {
@@ -18,11 +19,14 @@ final class MainContainer: ObservableObject {
             
         case .selectFlavor(let flavor):
             state.selectedFlavor = flavor
-            filterThanks()
+            fetchThanks()
             
         case .selectThank(let thank):
             state.selectedThank = thank
             
+        case .refreshNickName:
+            state.userNickName = UserDefaults.standard.string(forKey: UserDefaultsKeys.userNickName) ?? ""
+
         case .clearError:
             state.errorMessage = nil
         }
@@ -32,23 +36,36 @@ final class MainContainer: ObservableObject {
         Task {
             state.isLoading = true
             do {
-                let thanks = try await FirebaseManager.shared.fetch(as: Thank.self, .thank)
+                let flavor = state.selectedFlavor
+                let thanks: [Thank]
+                
+                switch flavor {
+                case .all:
+                    thanks = try await FirebaseManager.shared.fetch(
+                        as: Thank.self,
+                        .thank,
+                        whereFeild: "isPublic",
+                        equalData: true,
+                        order: "displayDate",
+                        count: 30
+                    )
+                case .me:
+                    thanks = try await FirebaseManager.shared.fetch(
+                        as: Thank.self,
+                        .thank,
+                        whereFeild: "userNickName",
+                        equalData: state.userNickName,
+                        order: "displayDate"
+                    )
+                }
+
                 state.thanks = thanks
-                filterThanks()
+
             } catch {
                 state.errorMessage = error.localizedDescription
             }
             
             state.isLoading = false
-        }
-    }
-    
-    private func filterThanks() {
-        switch state.selectedFlavor {
-        case .all:
-            state.filteredThanks = state.thanks
-        case .me:
-            state.filteredThanks = state.thanks.filter { $0.user.nickName == state.userNickName }
         }
     }
 }

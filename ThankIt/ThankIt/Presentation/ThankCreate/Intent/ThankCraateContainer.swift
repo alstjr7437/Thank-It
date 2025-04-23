@@ -20,7 +20,7 @@ final class ThankCraateContainer: ObservableObject {
     }
     
     private func createThank(_ thankForm: CreateThankForm) {
-        guard let userNickName = UserDefaults.standard.string(forKey: UserDefaultsKeys.userNickname) else {
+        guard let userNickName = UserDefaults.standard.string(forKey: UserDefaultsKeys.userNickName) else {
             state.errorMessage = "닉네임이 없습니다."
             return
         }

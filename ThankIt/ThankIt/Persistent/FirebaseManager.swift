@@ -26,9 +26,22 @@ final class FirebaseManager {
     
     func fetch<T: Decodable>(
         as type: T.Type,
-        _ collectionType: CollectionType
+        _ collectionType: CollectionType,
+        whereFeild: String? = nil,
+        equalData: Any? = nil,
+        order: String? = nil,
+        count: Int = 0
     ) async throws -> [T] {
-        let snapshot = try await db.collection(collectionType.rawValue).getDocuments()
+        var query: Query = db.collection(collectionType.rawValue)
+        
+        if let whereFeild = whereFeild, let equalData = equalData {
+            query = query.whereField(whereFeild, isEqualTo: equalData)
+        }
+        if let order = order { query = query.order(by: order, descending: true) }
+        if count > 0 { query = query.limit(to: count) }
+
+        
+        let snapshot = try await query.getDocuments()
         
         let items: [T] = try snapshot.documents.compactMap { document in
             guard let jsonData = try? JSONSerialization.data(withJSONObject: document.data()),

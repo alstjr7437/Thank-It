@@ -9,7 +9,7 @@ import Foundation
 
 struct Thank: Identifiable, Codable {
     let id: UUID
-    let user: User
+    let userNickName: String
     let isPublic: Bool
     let isAnonymous: Bool
     let content: String

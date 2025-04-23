@@ -26,15 +26,15 @@ struct MainView: View {
                         Text(UserScope.me.rawValue).tag(UserScope.me)
                     }
                     .pickerStyle(.segmented)
-                    .frame(width: Metrics.pickerFrame)
                     .padding()
-                    .frame(maxWidth: .infinity, alignment: .trailing)
                     
-                    // MARK: Main Data
-                    LazyVGrid(columns: columns, spacing: Metrics.verticalGridSpacing) {
-                        ForEach(container.state.filteredThanks) { thank in
-                            PostItView(thank: thank, size: Metrics.postItListSize)
-                                .onTapGesture { container.send(.selectThank(thank)) }
+                    if !container.state.isLoading {
+                        // MARK: Main Data
+                        LazyVGrid(columns: columns, spacing: Metrics.verticalGridSpacing) {
+                            ForEach(container.state.thanks) { thank in
+                                PostItView(thank: thank, size: Metrics.postItListSize)
+                                    .onTapGesture { container.send(.selectThank(thank)) }
+                            }
                         }
                     }
                 }
@@ -59,12 +59,27 @@ struct MainView: View {
                         .foregroundColor(.gray)
                         .padding()
                 }
-                
             }
+            
+            .navigationBarItems(leading:Text("Thanks").font(.extraFont))
+            .navigationBarItems(trailing:
+                NavigationLink(
+                    destination: LoginView(nickName: container.state.userNickName) {
+                        container.send(.refreshNickName)
+                        container.send(.onAppear)
+                    },
+                    label: {
+                        Image(systemName: "person.fill")
+                            .font(.titleFont)
+                            .foregroundColor(.point)
+                    }
+                )
+            )
         }
         // MARK: 화면 Load
         .onAppear {
             container.send(.onAppear)
+            container.send(.refreshNickName)
         }
         
         // MARK: 팝업 화면
@@ -101,7 +116,6 @@ struct MainView: View {
 
 private extension MainView {
     enum Metrics {
-        static let pickerFrame = 100.0
         static let createButtonFrame = 70.0
         static let createButtonPadding = 30.0
         static let verticalGridSpacing = 40.0

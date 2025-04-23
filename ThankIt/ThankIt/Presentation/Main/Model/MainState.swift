@@ -11,8 +11,7 @@ struct MainState {
     var selectedFlavor: UserScope = .all
     var thanks: [Thank] = []
     var selectedThank: Thank? = nil
-    var filteredThanks: [Thank] = []
-    var userNickName: String = UserDefaults.standard.string(forKey: UserDefaultsKeys.userNickname) ?? ""
+    var userNickName: String = UserDefaults.standard.string(forKey: UserDefaultsKeys.userNickName) ?? ""
     
     var isLoading: Bool = false
     var errorMessage: String? = nil

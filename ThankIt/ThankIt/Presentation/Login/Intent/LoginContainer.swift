@@ -19,7 +19,7 @@ final class LoginContainer: ObservableObject {
     }
     
     func savedNickName(_ nickName: String) {
-        UserDefaults.standard.set(nickName, forKey: UserDefaultsKeys.userNickname)
+        UserDefaults.standard.set(nickName, forKey: UserDefaultsKeys.userNickName)
         
         //MARK: 추후 파이어베이스 닉네임 저장
     }

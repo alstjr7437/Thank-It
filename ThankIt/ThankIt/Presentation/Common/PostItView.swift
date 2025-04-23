@@ -23,7 +23,7 @@ struct PostItView: View {
                     .multilineTextAlignment(.leading)
                 Spacer()
                 if !thank.isAnonymous {
-                    Text(thank.user.nickName)
+                    Text(thank.userNickName)
                         .font(.footnote)
                         .foregroundColor(.gray)
                         .padding(.bottom, Metrics.nickNameBottomPadding)

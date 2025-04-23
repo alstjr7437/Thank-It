@@ -17,7 +17,7 @@ struct CreateThankForm {
     func toDomain(nickName: String) -> Thank {
         return Thank(
             id: UUID(),
-            user: User(nickName: nickName),
+            userNickName: nickName,
             isPublic: isPublic,
             isAnonymous: isAnonymous,
             content: content,
