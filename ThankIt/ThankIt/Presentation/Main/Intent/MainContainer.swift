@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 
 @MainActor
 final class MainContainer: ObservableObject {
@@ -22,6 +23,9 @@ final class MainContainer: ObservableObject {
             
         case .selectThank(let thank):
             state.selectedThank = thank
+            
+        case .refreshNickName:
+            state.userNickName = UserDefaults.standard.string(forKey: UserDefaultsKeys.userNickName) ?? ""
 
         case .clearError:
             state.errorMessage = nil
