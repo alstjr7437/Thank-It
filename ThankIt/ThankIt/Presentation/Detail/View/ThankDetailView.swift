@@ -8,14 +8,21 @@
 import SwiftUI
 
 struct ThankDetailView: View {
-    let thank: Thank
-    let userNickName: String
+    
+    @StateObject private var container: DetailContainer
+    
+    init(thank: Thank, userNickName: String) {
+        _container = StateObject(wrappedValue: DetailContainer(thank: thank, userNickName: userNickName))
+    }
+    
+    var state: DetailState { return container.state }
+    
     
     var body: some View {
         VStack(spacing: 30) {
-            PostItView(thank: thank, size: Metrics.detailPostItSize)
+            PostItView(thank: state.thank, size: Metrics.detailPostItSize)
             
-            if userNickName == thank.userNickName {
+            if state.userNickName == state.thank.userNickName {
                 EditButtonView()
             }
         }
