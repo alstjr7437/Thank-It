@@ -19,8 +19,8 @@ final class DetailContainer: ObservableObject {
         switch intent {
         case .updateThank(let id):
             updateThank(id)
-        case .deleteThank(let id):
-            deleteThank(id)
+        case .deleteThank(let thank):
+            deleteThank(thank)
         }
     }
     
@@ -29,7 +29,18 @@ final class DetailContainer: ObservableObject {
     }
     
     
-    private func deleteThank(_ id: String){
-        
+    private func deleteThank(_ thank: Thank){
+        Task {
+            state.isLoading = true
+            
+            do {
+                _ = try await FirebaseManager.shared.delete(thank)
+            } catch {
+                state.errorMessage = error.localizedDescription
+            }
+            
+            state.isLoading = false
+            state.isSuccess = true
+        }
     }
 }

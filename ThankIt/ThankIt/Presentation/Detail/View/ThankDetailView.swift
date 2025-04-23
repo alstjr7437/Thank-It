@@ -22,40 +22,33 @@ struct ThankDetailView: View {
             PostItView(thank: state.thank, size: Metrics.detailPostItSize)
             
             if state.userNickName == state.thank.userNickName {
-                EditButtonView()
-            }
-        }
-    }
-    
-    struct EditButtonView: View {
-        var body: some View {
-            HStack(spacing: 20) {
-                Button {
-//                    ThankCreateView(create: false, thank: thank) {
-//                        // TODO: Reload Data
-//                    }
-                } label: {
-                    Text("수정하기")
-                        .frame(width: Metrics.buttonWidthFrame, height: Metrics.buttonHeightFrame)
-                        .foregroundStyle(.black)
-                        .background(.point)
-                        .cornerRadius(Metrics.buttonConerRadius)
-                        .shadow(radius: 4, x: 4, y: 4)
-                }
-                
-                Button {
-                    // TODO: 삭제하기 로직
-                } label: {
-                    Text("삭제하기")
-                        .frame(width: Metrics.buttonWidthFrame, height: Metrics.buttonHeightFrame)
-                        .foregroundStyle(.white)
-                        .background(.red)
-                        .cornerRadius(Metrics.buttonConerRadius)
-                        .shadow(radius: 4, x: 4, y: 4)
+                HStack(spacing: 20) {
+                    Button {
+//                        ThankCreateView(create: false, thank: thank) {
+//                            // TODO: Reload Data
+//                        }
+                    } label: {
+                        Text("수정하기")
+                            .frame(width: Metrics.buttonWidthFrame, height: Metrics.buttonHeightFrame)
+                            .foregroundStyle(.black)
+                            .background(.point)
+                            .cornerRadius(Metrics.buttonConerRadius)
+                            .shadow(radius: 4, x: 4, y: 4)
+                    }
+                    
+                    Button {
+                        container.send(.deleteThank(state.thank))
+                    } label: {
+                        Text("삭제하기")
+                            .frame(width: Metrics.buttonWidthFrame, height: Metrics.buttonHeightFrame)
+                            .foregroundStyle(.white)
+                            .background(.red)
+                            .cornerRadius(Metrics.buttonConerRadius)
+                            .shadow(radius: 4, x: 4, y: 4)
+                    }
                 }
             }
         }
-        
     }
 }
 
