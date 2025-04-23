@@ -13,7 +13,6 @@ struct ThankCreateView: View {
     @State private var form = CreateThankForm()
     @StateObject private var container = ThankCraateContainer()
     var state: ThankCreateState { return container.state }
-    let create: Bool
     let thank: Thank?
     
     @Environment(\.dismiss) private var dismiss
@@ -24,7 +23,6 @@ struct ThankCreateView: View {
     }
 
     var body: some View {
-        // MARK: View
         VStack {
             ScrollView {
                 VStack(spacing: 10) {
@@ -51,13 +49,10 @@ struct ThankCreateView: View {
             }
             Spacer()
             CreateButtonView(isDisabled: isButtonDisabled) {
-                if create {
-                    container.send(.createThank(form: form))
+                if let thank = thank {
+                    container.send(.updateThank(form: form, id: thank.id.uuidString))
                 } else {
-                    if let thank = thank {
-                        container.send(.updateThank(data: thank))
-                    }
-                    
+                    container.send(.createThank(form: form))
                 }
             }
         }
@@ -96,6 +91,16 @@ struct ThankCreateView: View {
             }
             .padding(24)
             .background(RoundedRectangle(cornerRadius: 12).fill(Color.black.opacity(0.8)))
+        }
+        
+        .onAppear {
+            if let thank = thank {
+                form.content = thank.content
+                form.isPublic = thank.isPublic
+                form.isAnonymous = thank.isAnonymous
+                form.selectedDate = thank.displayDate
+                form.selectedPostIt = thank.postIt
+            }
         }
     }
 }
@@ -179,5 +184,5 @@ extension ThankCreateView {
 // MARK: - Preview
 
 #Preview {
-    ThankCreateView(create: true, thank: nil){}
+    ThankCreateView(thank: nil){}
 }

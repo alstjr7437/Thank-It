@@ -16,8 +16,8 @@ final class ThankCraateContainer: ObservableObject {
         switch intent {
         case let .createThank(form):
             createThank(form)
-        case .updateThank(let thank):
-            updateThank(thank)
+        case .updateThank(let form, let id):
+            updateThank(form, id: id)
         }
     }
     
@@ -44,17 +44,24 @@ final class ThankCraateContainer: ObservableObject {
         
     }
     
-    private func updateThank(_ thank: Thank) {
+    private func updateThank(_ thankForm: CreateThankForm, id: String) {
+        guard let userNickName = UserDefaults.standard.string(forKey: UserDefaultsKeys.userNickName) else {
+            state.errorMessage = "닉네임이 없습니다."
+            return
+        }
+        
+        let thank = thankForm.toDomain(nickName: userNickName, id: UUID(uuidString: id))
+        
         Task {
-                state.isLoading = true
-                
-                do {
-                    _ = try await FirebaseManager.shared.update(thank)
-                } catch {
-                    state.errorMessage = error.localizedDescription
-                }
-                
-                state.isLoading = false
+            state.isLoading = true
+            
+            do {
+                _ = try await FirebaseManager.shared.update(thank)
+            } catch {
+                state.errorMessage = error.localizedDescription
+            }
+            
+            state.isLoading = false
             state.isSuccess = true
         }
         

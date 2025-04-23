@@ -9,5 +9,5 @@ import Foundation
 
 enum ThankCreateIntent {
     case createThank(form: CreateThankForm)
-    case updateThank(data: Thank)
+    case updateThank(form: CreateThankForm, id: String)
 }

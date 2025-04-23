@@ -14,9 +14,9 @@ struct CreateThankForm {
     var selectedDate: Date = Date()
     var selectedPostIt: PostIt = .square(color: .yellow)
     
-    func toDomain(nickName: String) -> Thank {
+    func toDomain(nickName: String, id: UUID? = nil) -> Thank {
         return Thank(
-            id: UUID(),
+            id: id ?? UUID(),
             userNickName: nickName,
             isPublic: isPublic,
             isAnonymous: isAnonymous,

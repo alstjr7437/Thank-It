@@ -44,7 +44,7 @@ struct MainView: View {
                 }
                 
                 // MARK: 생성 버튼
-                NavigationLink(destination: ThankCreateView(create: true, thank: nil) {
+                NavigationLink(destination: ThankCreateView(thank: nil) {
                     container.send(.onAppear)
                 }) {
                     Image(.createButton)

@@ -24,8 +24,10 @@ struct ThankDetailView: View {
                 
                 if state.userNickName == state.thank.userNickName {
                     HStack(spacing: 20) {
-                        Button {
-                            // TODO: Reload Data
+                        NavigationLink {
+                            ThankCreateView(thank: state.thank) {
+                                // TODO: 완료하고 데이터 동기화 처리
+                            }
                         } label: {
                             Text("수정하기")
                                 .frame(width: Metrics.buttonWidthFrame, height: Metrics.buttonHeightFrame)
