@@ -75,6 +75,26 @@ final class FirebaseManager {
         
         return true
     }
+    
+    func get<T: Decodable>(_ id: String, collectionType: CollectionType) async throws -> T? {
+        let snapshot = try await db
+            .collection(collectionType.rawValue)
+            .whereField("id", isEqualTo: id)  // "id" 필드를 기준으로 쿼리
+            .limit(to: 1)  // 최대 1개의 결과만 가져옴
+            .getDocuments()
+
+        // 첫 번째 문서를 가져와서 데이터 디코딩
+        guard let document = snapshot.documents.first else {
+            throw Error.fetchFailed(underlying: NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "문서가 존재하지 않습니다."]))
+        }
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: document.data()),
+              let decoded = try? JSONDecoder().decode(T.self, from: jsonData) else {
+            throw Error.decodingFailed
+        }
+
+        return decoded
+    }
 }
 
 extension FirebaseManager {
