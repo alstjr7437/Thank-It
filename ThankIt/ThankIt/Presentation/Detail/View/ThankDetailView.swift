@@ -18,36 +18,38 @@ struct ThankDetailView: View {
     var state: DetailState { return container.state }
     
     var body: some View {
-        VStack(spacing: 30) {
-            PostItView(thank: state.thank, size: Metrics.detailPostItSize)
-            
-            if state.userNickName == state.thank.userNickName {
-                HStack(spacing: 20) {
-                    Button {
-//                        ThankCreateView(create: false, thank: thank) {
-//                            // TODO: Reload Data
-//                        }
-                    } label: {
-                        Text("수정하기")
-                            .frame(width: Metrics.buttonWidthFrame, height: Metrics.buttonHeightFrame)
-                            .foregroundStyle(.black)
-                            .background(.point)
-                            .cornerRadius(Metrics.buttonConerRadius)
-                            .shadow(radius: 4, x: 4, y: 4)
+        GeometryReader { geometry in
+            VStack(spacing: 30) {
+                PostItView(thank: state.thank, size: Metrics.detailPostItSize)
+                
+                if state.userNickName == state.thank.userNickName {
+                    HStack(spacing: 20) {
+                        Button {
+                            // TODO: Reload Data
+                        } label: {
+                            Text("수정하기")
+                                .frame(width: Metrics.buttonWidthFrame, height: Metrics.buttonHeightFrame)
+                                .foregroundStyle(.black)
+                                .background(.point)
+                                .cornerRadius(Metrics.buttonConerRadius)
+                                .shadow(radius: 4, x: 4, y: 4)
+                        }
+                        
+                        Button {
+                            container.send(.deleteThank(state.thank))
+                        } label: {
+                            Text("삭제하기")
+                                .frame(width: Metrics.buttonWidthFrame, height: Metrics.buttonHeightFrame)
+                                .foregroundStyle(.white)
+                                .background(.red)
+                                .cornerRadius(Metrics.buttonConerRadius)
+                                .shadow(radius: 4, x: 4, y: 4)
+                        }
                     }
-                    
-                    Button {
-                        container.send(.deleteThank(state.thank))
-                    } label: {
-                        Text("삭제하기")
-                            .frame(width: Metrics.buttonWidthFrame, height: Metrics.buttonHeightFrame)
-                            .foregroundStyle(.white)
-                            .background(.red)
-                            .cornerRadius(Metrics.buttonConerRadius)
-                            .shadow(radius: 4, x: 4, y: 4)
-                    }
+                    .frame(width: geometry.size.width)
                 }
             }
+            .frame(width: geometry.size.width, height: geometry.size.height)
         }
     }
 }

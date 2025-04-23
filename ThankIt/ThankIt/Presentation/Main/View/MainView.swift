@@ -60,6 +60,17 @@ struct MainView: View {
                         .foregroundColor(.gray)
                         .padding()
                 }
+                
+                // MARK: 팝업 뷰
+                if let thank = state.selectedThank {
+                    Color.black.opacity(0.7) // 배경을 어두운 회색 투명하게 설정
+                        .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {
+                            container.send(.selectThank(nil))  // 배경을 클릭하면 팝업을 닫도록 설정
+                        }
+                    
+                    ThankDetailView(thank: thank, userNickName: "Kinder")
+                }
             }
             
             .navigationBarItems(leading:Text("Thanks").font(.extraFont))
@@ -81,22 +92,6 @@ struct MainView: View {
         .onAppear {
             container.send(.onAppear)
             container.send(.refreshNickName)
-        }
-        
-        // MARK: 팝업 화면
-        .popup(
-            isPresented: Binding(
-                get: { state.selectedThank != nil },
-                set: { if !$0 { container.send(.selectThank(nil)) }}
-            )
-        ) {
-            if let thank = state.selectedThank {
-                ThankDetailView(thank: thank, userNickName: state.userNickName)
-            }
-        } customize: {
-            $0.backgroundColor(.black.opacity(0.5))
-                .closeOnTapOutside(true)
-                .closeOnTap(false)
         }
         
         // MARK: 에러 화면
