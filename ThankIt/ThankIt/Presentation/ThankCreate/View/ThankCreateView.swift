@@ -13,6 +13,8 @@ struct ThankCreateView: View {
     @State private var form = CreateThankForm()
     @StateObject private var container = ThankCraateContainer()
     var state: ThankCreateState { return container.state }
+    let create: Bool
+    let thank: Thank?
     
     @Environment(\.dismiss) private var dismiss
     var onComplete: (() -> Void)
@@ -49,7 +51,14 @@ struct ThankCreateView: View {
             }
             Spacer()
             CreateButtonView(isDisabled: isButtonDisabled) {
-                container.send(.createThank(form: form))
+                if create {
+                    container.send(.createThank(form: form))
+                } else {
+                    if let thank = thank {
+                        container.send(.updateThank(data: thank))
+                    }
+                    
+                }
             }
         }
         
@@ -170,5 +179,5 @@ extension ThankCreateView {
 // MARK: - Preview
 
 #Preview {
-    ThankCreateView{}
+    ThankCreateView(create: true, thank: nil){}
 }

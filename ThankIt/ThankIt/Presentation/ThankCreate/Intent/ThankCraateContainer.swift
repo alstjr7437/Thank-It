@@ -16,6 +16,8 @@ final class ThankCraateContainer: ObservableObject {
         switch intent {
         case let .createThank(form):
             createThank(form)
+        case .updateThank(let thank):
+            updateThank(thank)
         }
     }
     
@@ -39,5 +41,22 @@ final class ThankCraateContainer: ObservableObject {
             state.isLoading = false
             state.isSuccess = true
         }
+        
+    }
+    
+    private func updateThank(_ thank: Thank) {
+        Task {
+                state.isLoading = true
+                
+                do {
+                    _ = try await FirebaseManager.shared.update(thank)
+                } catch {
+                    state.errorMessage = error.localizedDescription
+                }
+                
+                state.isLoading = false
+            state.isSuccess = true
+        }
+        
     }
 }
