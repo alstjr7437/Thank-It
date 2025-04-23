@@ -12,6 +12,7 @@ struct ThankCreateView: View {
     
     @State private var form = CreateThankForm()
     @StateObject private var container = ThankCraateContainer()
+    var state: ThankCreateState { return container.state }
     
     @Environment(\.dismiss) private var dismiss
     var onComplete: (() -> Void)
@@ -59,7 +60,7 @@ struct ThankCreateView: View {
         }
         
         // MARK: State Change
-        .onChange(of: [container.state.isSuccess, form.isPublic, form.isAnonymous] ) { _, new in
+        .onChange(of: [state.isSuccess, form.isPublic, form.isAnonymous] ) { _, new in
             let isSuccess = new[0], isPublic = new[1], isAnonymous = new[2]
             
             UserDefaults.standard.set(isPublic, forKey: UserDefaultsKeys.isPublic)
@@ -74,7 +75,7 @@ struct ThankCreateView: View {
         // MARK: Loading
         .popup(
             isPresented: Binding(
-                get: { container.state.isLoading },
+                get: { state.isLoading },
                 set: { _ in } // 사용자가 직접 닫지 못하도록 설정
             )
         ) {
