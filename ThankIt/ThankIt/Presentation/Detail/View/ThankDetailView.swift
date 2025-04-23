@@ -10,6 +10,7 @@ import SwiftUI
 struct ThankDetailView: View {
     
     @StateObject private var container: DetailContainer
+    @State private var showDeleteAlert = false
     
     init(thank: Thank, userNickName: String) {
         _container = StateObject(wrappedValue: DetailContainer(thank: thank, userNickName: userNickName))
@@ -38,7 +39,7 @@ struct ThankDetailView: View {
                         }
                         
                         Button {
-                            container.send(.deleteThank(state.thank))
+                            showDeleteAlert = true
                         } label: {
                             Text("삭제하기")
                                 .frame(width: Metrics.buttonWidthFrame, height: Metrics.buttonHeightFrame)
@@ -52,6 +53,14 @@ struct ThankDetailView: View {
                 }
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
+        }
+        .alert("삭제하시겠습니까?", isPresented: $showDeleteAlert) {
+            Button("네", role: .destructive) {
+                container.send(.deleteThank(state.thank))
+            }
+            Button("아니요", role: .cancel) {}
+        } message: {
+            Text("해당 감사한 일을 삭제하면\n추후에 확인하지 못합니다.")
         }
     }
 }
