@@ -28,7 +28,7 @@ final class FirebaseManager {
         as type: T.Type,
         _ collectionType: CollectionType,
         whereFeild: String? = nil,
-        equalData: String? = nil,
+        equalData: Any? = nil,
         order: String? = nil,
         count: Int = 0
     ) async throws -> [T] {

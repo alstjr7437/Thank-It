@@ -40,6 +40,8 @@ final class MainContainer: ObservableObject {
                     thanks = try await FirebaseManager.shared.fetch(
                         as: Thank.self,
                         .thank,
+                        whereFeild: "isPublic",
+                        equalData: true,
                         order: "displayDate",
                         count: 30
                     )
