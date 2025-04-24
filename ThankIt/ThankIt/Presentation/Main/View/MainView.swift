@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import PopupView
 
 struct MainView: View {
     @StateObject private var container = MainContainer()
