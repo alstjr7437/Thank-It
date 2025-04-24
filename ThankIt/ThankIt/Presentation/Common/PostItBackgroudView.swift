@@ -20,10 +20,10 @@ struct PostItBackgroundView: View {
                 .resizable()
                 .scaledToFill()
 
-        case .apple:
-            Image("ApplePost")
-                .resizable()
-                .scaledToFill()
+//        case .apple:
+//            Image("ApplePost")
+//                .resizable()
+//                .scaledToFill()
         }
     }
 }

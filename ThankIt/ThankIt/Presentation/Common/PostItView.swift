@@ -39,8 +39,8 @@ struct PostItView: View {
     
     private var customPadding: CGFloat {
         switch thank.postIt {
-        case .apple:
-            size < 300 ? Metrics.appleViewBasicPadding : Metrics.appleViewDetailPadding
+//        case .apple:
+//            size < 300 ? Metrics.appleViewBasicPadding : Metrics.appleViewDetailPadding
         default :
             size < 300 ? Metrics.defaultPadding : Metrics.detailPadding
         }

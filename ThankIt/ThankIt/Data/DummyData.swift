@@ -17,15 +17,15 @@ struct DummyData {
             postIt: .clova,
             displayDate: Date()
         ),
-        Thank(
-            id: UUID(),
-            userNickName: "Kinder",
-            isPublic: true,
-            isAnonymous: false,
-            content: "Jack이 리뷰를 해줬어요",
-            postIt: .apple,
-            displayDate: Date()
-        ),
+//        Thank(
+//            id: UUID(),
+//            userNickName: "Kinder",
+//            isPublic: true,
+//            isAnonymous: false,
+//            content: "Jack이 리뷰를 해줬어요",
+//            postIt: .apple,
+//            displayDate: Date()
+//        ),
         Thank(
             id: UUID(),
             userNickName: "Kinder",
