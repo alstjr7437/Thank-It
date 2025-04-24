@@ -22,13 +22,13 @@ struct PostItView: View {
                     .foregroundColor(.black)
                     .multilineTextAlignment(.leading)
                 Spacer()
-                if !thank.isAnonymous {
-                    Text(thank.userNickName)
-                        .font(.footnote)
-                        .foregroundColor(.gray)
-                        .padding(.bottom, Metrics.nickNameBottomPadding)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                }
+                
+                Text(thank.userNickName)
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+                    .padding(.bottom, Metrics.nickNameBottomPadding)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .opacity(thank.isAnonymous ? 0 : 1)
             }
             .padding(customPadding)
         }
