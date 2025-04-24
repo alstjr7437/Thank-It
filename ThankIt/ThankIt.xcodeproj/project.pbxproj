@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		EE4B52772DB114040017F2DF /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = EE4B52762DB114040017F2DF /* FirebaseCore */; };
 		EE4B52792DB115D50017F2DF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = EE4B52782DB115D50017F2DF /* FirebaseFirestore */; };
-		EE7866562DAFCE8E003FFD2F /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = EE7866552DAFCE8E003FFD2F /* PopupView */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,7 +29,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE4B52772DB114040017F2DF /* FirebaseCore in Frameworks */,
-				EE7866562DAFCE8E003FFD2F /* PopupView in Frameworks */,
 				EE4B52792DB115D50017F2DF /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -74,7 +72,6 @@
 			);
 			name = ThankIt;
 			packageProductDependencies = (
-				EE7866552DAFCE8E003FFD2F /* PopupView */,
 				EE4B52762DB114040017F2DF /* FirebaseCore */,
 				EE4B52782DB115D50017F2DF /* FirebaseFirestore */,
 			);
@@ -107,7 +104,6 @@
 			mainGroup = EE5399132DAE1C7500F3D0C3;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				EE7866542DAFCE8E003FFD2F /* XCRemoteSwiftPackageReference "PopupView" */,
 				EE7866672DB11170003FFD2F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -272,6 +268,8 @@
 				DEVELOPMENT_TEAM = 34X3BT977M;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Thankit;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -287,10 +285,11 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -304,6 +303,8 @@
 				DEVELOPMENT_TEAM = 34X3BT977M;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Thankit;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -319,10 +320,11 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -350,14 +352,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		EE7866542DAFCE8E003FFD2F /* XCRemoteSwiftPackageReference "PopupView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/exyte/PopupView";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.1.7;
-			};
-		};
 		EE7866672DB11170003FFD2F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -378,11 +372,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EE7866672DB11170003FFD2F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
-		};
-		EE7866552DAFCE8E003FFD2F /* PopupView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EE7866542DAFCE8E003FFD2F /* XCRemoteSwiftPackageReference "PopupView" */;
-			productName = PopupView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

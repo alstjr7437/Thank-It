@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct CreateButtonView: View {
+    let text: String
     var isDisabled: Bool = false
     var action: () -> Void
     
     var body: some View {
         Button(action: action) {
-            Text("생성하기")
+            Text(text)
                 .font(.buttonFont)
                 .frame(width: 343, height: 52)
                 .foregroundStyle(.white)
@@ -25,7 +26,7 @@ struct CreateButtonView: View {
 }
 
 #Preview {
-    CreateButtonView {
+    CreateButtonView(text: "생성하기") {
         print("버튼 클릭")
     }
 }

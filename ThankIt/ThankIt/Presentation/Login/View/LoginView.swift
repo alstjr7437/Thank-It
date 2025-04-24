@@ -45,7 +45,7 @@ struct LoginView: View {
             
             Spacer()
             
-            CreateButtonView {
+            CreateButtonView(text: "감사한 일 쓰러가기") {
                 container.send(.saveNickName(nickName))
                 onComplete()
                 dismiss()

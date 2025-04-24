@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
-import PopupView
 
 struct MainView: View {
     @StateObject private var container = MainContainer()
+    var state: MainState { return container.state }
     
     private(set) var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
 
@@ -19,7 +19,7 @@ struct MainView: View {
                 ScrollView {
                     // MARK: Picker
                     Picker("UserScope", selection: Binding(
-                        get: { container.state.selectedFlavor },
+                        get: { state.selectedFlavor },
                         set: { container.send(.selectFlavor($0)) }
                     )) {
                         Text(UserScope.all.rawValue).tag(UserScope.all)
@@ -28,10 +28,10 @@ struct MainView: View {
                     .pickerStyle(.segmented)
                     .padding()
                     
-                    if !container.state.isLoading {
+                    if !state.isLoading {
                         // MARK: Main Data
                         LazyVGrid(columns: columns, spacing: Metrics.verticalGridSpacing) {
-                            ForEach(container.state.thanks) { thank in
+                            ForEach(state.thanks) { thank in
                                 PostItView(thank: thank, size: Metrics.postItListSize)
                                     .onTapGesture { container.send(.selectThank(thank)) }
                             }
@@ -43,7 +43,7 @@ struct MainView: View {
                 }
                 
                 // MARK: 생성 버튼
-                NavigationLink(destination: ThankCreateView {
+                NavigationLink(destination: ThankCreateView(thank: nil) {
                     container.send(.onAppear)
                 }) {
                     Image(.createButton)
@@ -53,18 +53,33 @@ struct MainView: View {
                 }
                 .frame(maxHeight: .infinity, alignment: .bottom)
                 
-                if container.state.isLoading {
+                if state.isLoading {
                     ProgressView("불러오는 중")
                         .progressViewStyle(CircularProgressViewStyle())
                         .foregroundColor(.gray)
                         .padding()
+                }
+                
+                // MARK: 팝업 뷰
+                if let thank = state.selectedThank {
+                    Color.black.opacity(0.7) // 배경을 어두운 회색 투명하게 설정
+                        .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {
+                            container.send(.selectThank(nil))  // 배경을 클릭하면 팝업을 닫도록 설정
+                        }
+                    
+                    ThankDetailView(thank: thank, userNickName: state.userNickName) {
+                        container.send(.deletedThank)
+                    } updateComplete: {
+                        container.send(.onAppear)
+                    }
                 }
             }
             
             .navigationBarItems(leading:Text("Thanks").font(.extraFont))
             .navigationBarItems(trailing:
                 NavigationLink(
-                    destination: LoginView(nickName: container.state.userNickName) {
+                    destination: LoginView(nickName: state.userNickName) {
                         container.send(.refreshNickName)
                         container.send(.onAppear)
                     },
@@ -82,25 +97,9 @@ struct MainView: View {
             container.send(.refreshNickName)
         }
         
-        // MARK: 팝업 화면
-        .popup(
-            isPresented: Binding(
-                get: { container.state.selectedThank != nil },
-                set: { if !$0 { container.send(.selectThank(nil)) }}
-            )
-        ) {
-            if let thank = container.state.selectedThank {
-                ThankDetailView(thank: thank, userNickName: container.state.userNickName)
-            }
-        } customize: {
-            $0.backgroundColor(.black.opacity(0.5))
-                .closeOnTapOutside(true)
-                .closeOnTap(false)
-        }
-        
         // MARK: 에러 화면
         .alert("에러", isPresented: Binding<Bool>(
-            get: { container.state.errorMessage != nil },
+            get: { state.errorMessage != nil },
             set: { isPresented in
                 if !isPresented {
                     container.send(.clearError)
@@ -109,7 +108,7 @@ struct MainView: View {
         )) {
             Button("확인", role: .cancel) { }
         } message: {
-            Text(container.state.errorMessage ?? "알 수 없는 에러가 발생했어요.")
+            Text(state.errorMessage ?? "알 수 없는 에러가 발생했어요.")
         }
     }
 }
