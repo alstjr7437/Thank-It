@@ -16,12 +16,20 @@ struct CreateButtonView: View {
         Button(action: action) {
             Text(text)
                 .font(.buttonFont)
-                .frame(width: 343, height: 52)
+                .frame(width: Metrics.buttonWidth, height: Metrics.buttonHeight)
                 .foregroundStyle(.white)
                 .background(isDisabled ? Color.gray : .point)
-                .cornerRadius(8)
+                .cornerRadius(Metrics.conerRadius)
         }
         .disabled(isDisabled)
+    }
+}
+
+private extension CreateButtonView {
+    enum Metrics {
+        static let buttonWidth = 343.0
+        static let buttonHeight = 52.0
+        static let conerRadius = 8.0
     }
 }
 

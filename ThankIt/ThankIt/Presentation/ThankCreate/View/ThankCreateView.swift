@@ -25,20 +25,23 @@ struct ThankCreateView: View {
         ZStack {
             VStack {
                 ScrollView {
-                    VStack(spacing: 10) {
+                    VStack(spacing: Metrics.mainSpacing) {
                         ZStack(alignment: .topLeading) {
                             PostItBackgroundView(postIt: form.selectedPostIt)
                                 .shadow(radius: 4, x: 1, y: 4)
                             
                             TextEditor(text: $form.content)
-                                .padding(20)
+                                .padding(Metrics.textEditorPadding)
                                 .background(Color.clear)
                                 .scrollContentBackground(.hidden)
                                 .foregroundColor(.black)
                                 .font(.basicFont)
                         }
-                        .frame(width: 350, height: 350)
-                        .padding(.bottom, 20)
+                        .frame(
+                            width: Metrics.inputViewWidth,
+                            height: Metrics.inputViewHeight
+                        )
+                        .padding(.bottom, Metrics.inputViewBottomPadding)
                         
                         CreateSelectView(title: "공개 여부", isOn: $form.isPublic)
                         CreateSelectView(title: "익명 여부", isOn: $form.isAnonymous)
@@ -57,14 +60,18 @@ struct ThankCreateView: View {
                 }
             }
             if state.isLoading {
-                VStack(spacing: 16) {
+                VStack {
                     ProgressView(thank == nil ? "생성 중..." : "수정 중...")
                         .progressViewStyle(CircularProgressViewStyle())
                         .foregroundColor(.white)
                         .tint(.white)
                 }
-                .padding(24)
-                .background(RoundedRectangle(cornerRadius: 12).fill(Color.black.opacity(0.8)))
+                .padding(Metrics.loadingViewPadding)
+                .background(
+                    RoundedRectangle(
+                        cornerRadius: Metrics.loadingCornerRadius
+                    ).fill(Color.loadingBackground)
+                )
             }
         }
         
@@ -96,6 +103,19 @@ struct ThankCreateView: View {
                 form.selectedPostIt = thank.postIt
             }
         }
+    }
+}
+
+private extension ThankCreateView {
+    enum Metrics {
+        static let mainSpacing = 10.0
+        static let textEditorPadding = 20.0
+        static let inputViewWidth = 350.0
+        static let inputViewHeight = 350.0
+        static let inputViewBottomPadding = 20.0
+        
+        static let loadingViewPadding = 24.0
+        static let loadingCornerRadius = 12.0
     }
 }
 
