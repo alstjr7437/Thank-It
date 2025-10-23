@@ -18,9 +18,10 @@ struct PostItView: View {
 
             VStack(alignment: .leading) {
                 Text(thank.content)
-                    .font(size < 300 ? .basicFont : .detailFont )
+                    .font(fontSize)
                     .foregroundColor(.black)
                     .multilineTextAlignment(.leading)
+                
                 Spacer()
                 
                 Text(thank.userNickName)
@@ -44,6 +45,10 @@ struct PostItView: View {
         default :
             size < 300 ? Metrics.defaultPadding : Metrics.detailPadding
         }
+    }
+    
+    private var fontSize: Font {
+        return size < 300 ? .basicFont : .detailFont
     }
 }
 

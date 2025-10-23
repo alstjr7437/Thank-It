@@ -20,11 +20,11 @@ struct LoginView: View {
     }
     
     var body: some View {
-        VStack(spacing: 60) {
+        VStack(spacing: Metrics.spacing) {
             Spacer()
             Text("안녕하세요! 👋")
                 .font(.extraFont)
-                .padding(.top, -70)
+                .padding(.top, Metrics.titleTopPadding)
             Text("당신의 감사함을 들려주기 전에\n닉네임을 알려주세요!")
                 .font(.basicFont)
                 .multilineTextAlignment(.center)
@@ -41,7 +41,10 @@ struct LoginView: View {
                     .multilineTextAlignment(.center)
                     .background(Color.clear)
             }
-            .frame(width: 250, height: 100)
+            .frame(
+                width: Metrics.nickNameTextFieldWidth,
+                height: Metrics.nickNameTextFieldHeight
+            )
             
             Spacer()
             
@@ -52,6 +55,15 @@ struct LoginView: View {
             }
         }
         .padding()
+    }
+}
+
+private extension LoginView {
+    enum Metrics {
+        static let spacing = 60.0
+        static let titleTopPadding = -70.0
+        static let nickNameTextFieldWidth = 250.0
+        static let nickNameTextFieldHeight = 100.0
     }
 }
 

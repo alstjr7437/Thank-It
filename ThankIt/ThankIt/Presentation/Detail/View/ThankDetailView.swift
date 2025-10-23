@@ -29,11 +29,11 @@ struct ThankDetailView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack(spacing: 30) {
+            VStack(spacing: Metrics.spacing) {
                 PostItView(thank: state.thank, size: Metrics.detailPostItSize)
                 
                 if state.userNickName == state.thank.userNickName {
-                    HStack(spacing: 20) {
+                    HStack(spacing: Metrics.spacing) {
                         NavigationLink {
                             ThankCreateView(thank: state.thank) {
                                 container.send(.updatedThank(state.thank.id.uuidString))
@@ -87,6 +87,7 @@ private extension ThankDetailView {
         static let buttonHeightFrame = 45.0
         static let buttonConerRadius = 8.0
         static let detailPostItSize = 300.0
+        static let spacing = 30.0
     }
 }
 

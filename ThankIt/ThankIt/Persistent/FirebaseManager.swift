@@ -40,7 +40,6 @@ final class FirebaseManager {
         if let order = order { query = query.order(by: order, descending: true) }
         if count > 0 { query = query.limit(to: count) }
 
-        
         let snapshot = try await query.getDocuments()
         
         let items: [T] = try snapshot.documents.compactMap { document in
